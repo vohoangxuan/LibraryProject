@@ -25,7 +25,14 @@ final public class Book implements Serializable {
 		this.authors = Collections.unmodifiableList(authors);
 		copies = new BookCopy[]{new BookCopy(this, 1, true)};	
 	}
-	
+
+	public Book(String isbn, String title, int maxCheckoutLength, List<Author> authors, BookCopy[] copies) {
+		this.isbn = isbn;
+		this.title = title;
+		this.maxCheckoutLength = maxCheckoutLength;
+		this.authors = Collections.unmodifiableList(authors);
+		this.copies = copies;
+	}
 	public void updateCopies(BookCopy copy) {
 		for(int i = 0; i < copies.length; ++i) {
 			BookCopy c = copies[i];
@@ -44,12 +51,21 @@ final public class Book implements Serializable {
 		return retVal;
 		
 	}
+
+	public int availableCount() {
+		if(copies == null)
+			return 0;
+		return (int) Arrays.stream(copies)
+				.filter(x -> x.isAvailable())
+				.count();
+	}
 	
-	public void addCopy() {
+	public BookCopy addCopy() {
 		BookCopy[] newArr = new BookCopy[copies.length + 1];
 		System.arraycopy(copies, 0, newArr, 0, copies.length);
 		newArr[copies.length] = new BookCopy(this, copies.length +1, true);
 		copies = newArr;
+		return newArr[copies.length - 1];
 	}
 	
 	

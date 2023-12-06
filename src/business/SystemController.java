@@ -44,6 +44,19 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+
+	@Override
+	public Book addBook(String isbn, String title, int maxCheckoutLength, List<Author> authors, List<BookCopy> copies) throws BookException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		if(map.containsKey(isbn)) {
+			throw new BookException("This ISBN exists in the system");
+		}
+		Book book = new Book(isbn, title, maxCheckoutLength, authors, copies.toArray(new BookCopy[0]));
+		map.put(isbn, book);
+		da.updateBook(book);
+		return book;
+	}
 	
 	
 }

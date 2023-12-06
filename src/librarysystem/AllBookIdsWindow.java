@@ -8,11 +8,10 @@ import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
+import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
 import guid.LibrarySystem;
@@ -23,7 +22,8 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
-	
+	private DefaultTableModel model;
+	private JTable table;
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
@@ -86,17 +86,11 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public void setData(String data) {
 		textArea.setText(data);
 	}
-	
-//	private void populateTextArea() {
-//		//populate
-//		List<String> ids = ci.allBookIds();
-//		Collections.sort(ids);
-//		StringBuilder sb = new StringBuilder();
-//		for(String s: ids) {
-//			sb.append(s + "\n");
-//		}
-//		textArea.setText(sb.toString());
-//	}
+
+	public void refreshTable(Book newBook){
+		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount())});
+		reloadUI();
+	}
 
 	@Override
 	public boolean isInitialized() {
@@ -108,5 +102,12 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 		
+	}
+
+	private void reloadUI() {
+		model.fireTableDataChanged();
+		table.repaint();
+		table.updateUI();
+		repaint();
 	}
 }
