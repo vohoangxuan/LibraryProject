@@ -1,0 +1,18 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. Send new member
+activate UI
+UI -> Add_Member_Handler: 2. Forward member info
+activate Add_Member_Handler
+Add_Member_Handler -> Add_Member_Handler: 3. Validate new member info
+activate Add_Member_Handler
+deactivate Add_Member_Handler
+Add_Member_Handler -> System_Controller: 4. Add new member to db
+activate System_Controller
+deactivate System_Controller
+Add_Member_Handler -> Add_Member_Handler: 5. Set according state
+activate Add_Member_Handler
+deactivate Add_Member_Handler
+deactivate Add_Member_Handler
+@enduml

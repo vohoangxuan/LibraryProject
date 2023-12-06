@@ -1,0 +1,27 @@
+@startuml
+participant Librarian
+
+Librarian -> UI: 1. Send member ID and ISBN
+activate UI
+UI -> Checkout_Handler: 2. Forward member ID and ISBN
+activate Checkout_Handler
+Checkout_Handler -> Checkout_Handler: 3. Validate member ID
+activate Checkout_Handler
+deactivate Checkout_Handler
+Checkout_Handler -> Checkout_Handler: 4. Check for book availability
+activate Checkout_Handler
+deactivate Checkout_Handler
+Checkout_Handler -> System_Controller: 5. Create new checkout entry
+activate System_Controller
+System_Controller -> System_Controller: 6. Update member's according state
+activate System_Controller
+deactivate System_Controller
+System_Controller -> System_Controller: 7. Update book's according state
+activate System_Controller
+deactivate System_Controller
+deactivate System_Controller
+Checkout_Handler -> Checkout_Handler: 8. Update according state
+activate Checkout_Handler
+deactivate Checkout_Handler
+deactivate Checkout_Handler
+@enduml
