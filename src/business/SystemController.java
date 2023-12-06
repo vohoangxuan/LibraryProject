@@ -57,6 +57,11 @@ public class SystemController implements ControllerInterface {
 		da.updateBook(book);
 		return book;
 	}
-	
+
+	@Override
+	public List<Author> getAllAuthor() {
+		DataAccess da = new DataAccessFacade();
+		return da.readAuthorsMap().values().stream().toList();
+	}
 	
 }

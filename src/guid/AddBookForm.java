@@ -192,13 +192,13 @@ public class AddBookForm extends JFrame implements LibWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Author> newAuthors = new ArrayList<>();
-//                TableModel tm = authorTable.getModel();
-//                for(int i = 0; i < authors.size(); i++) {
-//                    boolean isCheck = Boolean.parseBoolean(tm.getValueAt(i, 0).toString());
-//                    if(isCheck) {
-//                        newAuthors.add(authors.get(i));
-//                    }
-//                }
+                TableModel tm = authorTable.getModel();
+                for(int i = 0; i < authors.size(); i++) {
+                    boolean isCheck = Boolean.parseBoolean(tm.getValueAt(i, 0).toString());
+                    if(isCheck) {
+                        newAuthors.add(authors.get(i));
+                    }
+                }
 
                 int numberOfCopies = Integer.parseInt(numberOfCopiesText.getText().trim());
                 if(numberOfCopies > 1) {
@@ -217,6 +217,39 @@ public class AddBookForm extends JFrame implements LibWindow {
             }
         });
         dataTablePanel.add(featurePanel, BorderLayout.NORTH);
+
+        authors = authorI.getAllAuthor();
+        Object[] columnNameAuthors = new Object[]{"Is Author?","First Name","Last Name","Tel","Bio","Street","City","Zipcode","State"};
+
+        Object[][] dataTableAuthor = new Object[authors.size()][2];
+
+        for(int i = 0; i< authors.size();i++){
+            Author lm = authors.get(i);
+
+            dataTableAuthor[i] = new Object[]{false, lm.getFirstName(), lm.getLastName(), lm.getTelephone(), lm.getBio(),
+                    lm.getAddress().getStreet(),lm.getAddress().getCity(),lm.getAddress().getZip(),lm.getAddress().getState()};
+
+        }
+        modelAuthor = new DefaultTableModel(dataTableAuthor, columnNameAuthors){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column == 0)
+                    return true;
+                return false;
+            }
+        };
+        authorTable = new JTable(modelAuthor){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
+        dataTablePanel.add(new JScrollPane(authorTable), BorderLayout.SOUTH);
     }
 
     private void clearTextFields() {

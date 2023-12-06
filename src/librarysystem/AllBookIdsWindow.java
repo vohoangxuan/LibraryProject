@@ -88,7 +88,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	public void refreshTable(Book newBook){
-		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount())});
 		reloadUI();
 	}
 
@@ -105,9 +104,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	private void reloadUI() {
-		model.fireTableDataChanged();
-		table.repaint();
-		table.updateUI();
 		repaint();
 	}
 }

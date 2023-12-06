@@ -20,7 +20,9 @@ import business.LibraryMember;
  *
  */
 public class TestData {
-	
+	public static void initData(){
+		main(new String[]{});
+	}
 	
 	public static void main(String[] args) {
 		TestData td = new TestData();
@@ -59,7 +61,7 @@ public class TestData {
 		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
 		members.add(libraryMember);
 		
-		DataAccessFacade.loadMemberMap(members);	
+		DataAccessFacade.loadMemberMap(members);
 	}
 	
 	///////////// DATA //////////////
@@ -98,7 +100,10 @@ public class TestData {
 			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));		
 		}
 	};
-	
+
+	public void authorData() {
+		DataAccessFacade.loadAuthorMap(allAuthors);
+	}
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
 		{

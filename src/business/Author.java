@@ -3,6 +3,8 @@ package business;
 import java.io.Serializable;
 
 final public class Author extends Person implements Serializable {
+	private String authorId;
+	public String getAuthorId() { return  authorId; }
 	private String bio;
 	public String getBio() {
 		return bio;
