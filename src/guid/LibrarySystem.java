@@ -29,7 +29,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember; 
+    JMenuItem login, allBookIds, allMemberIds, addMember, addBook;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -98,10 +98,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
  		   addMember = new JMenuItem("Add Member");
  		   addMember.addActionListener(new AddMemberListener());
+
+ 		   addBook = new JMenuItem("Add Book");
+ 		   addBook.addActionListener(new AddBookListener());
  		   
  		   options.add(allBookIds);
  		   options.add(allMemberIds);
  		   options.add(addMember);
+ 		   options.add(addBook);
  	   }
     }
     
@@ -184,6 +188,17 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
     	
     }
+
+    class AddBookListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddBookForm.INSTANCE.init();
+			Util.centerFrameOnDesktop(AddBookForm.INSTANCE);
+			AddBookForm.INSTANCE.setVisible(true);
+		}
+	}
 
 	@Override
 	public boolean isInitialized() {
