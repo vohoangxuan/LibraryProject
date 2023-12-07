@@ -2,6 +2,7 @@ package business;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(member);
 	}
+	
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -30,6 +32,23 @@ public class SystemController implements ControllerInterface {
 		currentAuth = map.get(id).getAuthorization();
 		
 	}
+	
+	public int getMaxMemberId() {
+		List<String> allMemIds = allMemberIds();
+		int maxId = 0;
+		int curId = 0;
+		try {
+			for(String m:allMemIds) {
+				curId = Integer.valueOf(m);
+				if(maxId < curId)
+					maxId = curId;
+				}
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+		return maxId;
+	}
+	
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();

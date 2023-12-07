@@ -16,12 +16,18 @@ public class Main {
 		/*
 	      EventQueue.invokeLater(() -> 
 	         {
-	        	 LoginWindow.INSTANCE.init();
-	 			 Util.centerFrameOnDesktop(LoginWindow.INSTANCE);
-	 			 LoginWindow.INSTANCE.setVisible(true);
+	        	 LoginForm.INSTANCE.init();
+	 			 Util.centerFrameOnDesktop(LoginForm.INSTANCE);
+	 			LoginForm.INSTANCE.setVisible(true);
 	         });
 	      
- */
+
+
+		CheckoutForm.INSTANCE.init();
+			 Util.centerFrameOnDesktop(CheckoutForm.INSTANCE);
+			 CheckoutForm.INSTANCE.setVisible(true);
+			 
+			  */
 		
 	      EventQueue.invokeLater(() -> 
 	         {
@@ -32,7 +38,7 @@ public class Main {
 	            centerFrameOnDesktop(LibrarySystem.INSTANCE);
 	            LibrarySystem.INSTANCE.setVisible(true);
 	         });
-	        
+	      
 	   }
 	   
 	   public static void centerFrameOnDesktop(Component f) {

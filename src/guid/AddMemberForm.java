@@ -57,6 +57,8 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	private LibraryMember libraryMember;
 	
 	public void init() {
+		if(isInitialized())
+    		return;
 		mainPanel = new JPanel();
 		
     	defineUpperHalf();
@@ -71,6 +73,8 @@ public class AddMemberForm extends JFrame implements LibWindow{
     	mainPanel.add(middleHalf, BorderLayout.CENTER);
     	mainPanel.add(lowerHalf, BorderLayout.SOUTH);
     	getContentPane().add(mainPanel);
+    	memberID.setEnabled(false);
+    	memberID.setBackground(new Color(240, 240, 240));
     	isInitialized(true);
     	pack();
 	}
@@ -133,7 +137,7 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	private void defineLowerPanel() {
 		
 		lowerPanel = new JPanel();
-		addNewMember = new JButton("Add new member");
+		addNewMember = new JButton("Save");
 		addAddMemberButtonListener(addNewMember);
 		lowerPanel.add(addNewMember);
 		
@@ -326,11 +330,8 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	
 	private void addNewMember() {
 		try {
-			String memberId = memberID.getText();
-			if(memberID == null || "".equals(memberID)) {
-				Util.showMessage(this, "Member ID cannot be bank!");
-				return;
-			}
+			int maxId = ci.getMaxMemberId();
+			String memberId = String.valueOf(maxId + 1);
 			String fname = firstName.getText();
 			String lname = lastName.getText();
 			String tel = phoneNumber.getText();
@@ -341,10 +342,23 @@ public class AddMemberForm extends JFrame implements LibWindow{
 			ruleSet.applyRules(this);
 			
 			ci.saveNewMember(libraryMember);
+			memberID.setText(memberId);
 			Util.showMessage(this, "Member added!");
+			resetForm();
 		} catch (RuleException e) {
 			Util.showMessage(this, e.getMessage());
 		}
+	}
+	
+	public void resetForm() {
+		memberID.setText("");
+		firstName.setText("");
+		lastName.setText("");
+		phoneNumber.setText("");
+		street.setText("");
+		city.setText("");
+		state.setText("");
+		zip.setText("");
 	}
 	
 	@Override

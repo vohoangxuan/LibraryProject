@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.util.HashMap;
 
 import guid.AddMemberForm;
+import guid.LoginForm;
 
 
 final public class RuleSetFactory {
@@ -11,7 +12,7 @@ final public class RuleSetFactory {
 	static HashMap<Class<? extends Component>, RuleSet> map = new HashMap<>();
 	static {
 		map.put(AddMemberForm.class, new AddMemberRuleSet());
-//		map.put(ProfileWindow.class, new CustomerProfileRuleSet());
+		map.put(LoginForm.class, new LoginRuleSet());
 	}
 	public static RuleSet getRuleSet(Component c) {
 		Class<? extends Component> cl = c.getClass();

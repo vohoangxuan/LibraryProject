@@ -85,35 +85,50 @@ public class LibrarySystem extends JFrame implements LibWindow {
     }
     
     private void addMenuItems() {
-       options = new JMenu("Options");  
- 	   menuBar.add(options);
- 	   
- 	   if( SystemController.currentAuth == null) {
-	 	   login = new JMenuItem("Login");
-	 	   login.addActionListener(new LoginListener());
-	 	   options.add(login);
- 	   } else {
- 	   
- 		   allBookIds = new JMenuItem("All Book Ids");
- 		   allBookIds.addActionListener(new AllBookIdsListener());
- 		   allMemberIds = new JMenuItem("All Member Ids");
- 		   allMemberIds.addActionListener(new AllMemberIdsListener());
+    	options = new JMenu("Options");  
+    	menuBar.add(options);
 
- 		   addMember = new JMenuItem("Add Member");
- 		   addMember.addActionListener(new AddMemberListener());
+    	if( SystemController.currentAuth == null) {
+    		login = new JMenuItem("Login");
+    		login.addActionListener(new LoginListener());
+    		options.add(login);
+    	} else {
 
- 		   addBook = new JMenuItem("Add Book");
- 		   addBook.addActionListener(new AddBookListener());
- 		   
-		   checkoutBook = new JMenuItem("Checkout Book");
-		   checkoutBook.addActionListener(new CheckoutBookListener());
+    		allBookIds = new JMenuItem("All Book Ids");
+    		allBookIds.addActionListener(new AllBookIdsListener());
+    		allMemberIds = new JMenuItem("All Member Ids");
+    		allMemberIds.addActionListener(new AllMemberIdsListener());
 
- 		   options.add(allBookIds);
- 		   options.add(allMemberIds);
- 		   options.add(addMember);
- 		   options.add(addBook);
-		   options.add(checkoutBook);
- 	   }
+    		addMember = new JMenuItem("Add Member");
+    		addMember.addActionListener(new AddMemberListener());
+
+    		addBook = new JMenuItem("Add Book");
+    		addBook.addActionListener(new AddBookListener());
+
+    		checkoutBook = new JMenuItem("Checkout Book");
+    		checkoutBook.addActionListener(new CheckoutBookListener());
+
+
+    		switch (SystemController.currentAuth) {
+    		case LIBRARIAN:
+    			options.add(checkoutBook);
+    			options.add(allBookIds);
+    			break;
+    		case ADMIN:
+    			options.add(allBookIds);
+    			options.add(allMemberIds);
+    			options.add(addMember);
+    			options.add(addBook);
+    			break;
+    		case BOTH:
+    			options.add(checkoutBook);
+    			options.add(addMember);
+    			options.add(addBook);
+    			options.add(allBookIds);
+    			options.add(allMemberIds);
+    			break;
+    		}
+    	}
     }
     
     class LoginListener implements ActionListener {
@@ -158,8 +173,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
 			AllMemberIdsWindow.INSTANCE.init();
-			AllMemberIdsWindow.INSTANCE.pack();
-			AllMemberIdsWindow.INSTANCE.setVisible(true);
+//			AllMemberIdsWindow.INSTANCE.pack();
+//			AllMemberIdsWindow.INSTANCE.setVisible(true);
 			
 			
 			LibrarySystem.hideAllWindows();
@@ -174,6 +189,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			System.out.println(sb.toString());
 			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
 			AllMemberIdsWindow.INSTANCE.pack();
+			AllMemberIdsWindow.INSTANCE.repaint();
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);

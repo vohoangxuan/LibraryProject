@@ -23,6 +23,9 @@ import business.LoginException;
 import business.SystemController;
 import librarysystem.LibWindow;
 import librarysystem.Util;
+import rulesets.RuleException;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
 
 
 public class LoginForm extends JFrame implements LibWindow {
@@ -65,7 +68,9 @@ public class LoginForm extends JFrame implements LibWindow {
 	/* This class is a singleton */
     private LoginForm () {}
     
-    public void init() {     		
+    public void init() {    
+    	if(isInitialized())
+    		return;
     	mainPanel = new JPanel();
     	defineUpperHalf();
     	defineMiddleHalf();
@@ -199,7 +204,10 @@ public class LoginForm extends JFrame implements LibWindow {
 	
     	private void checkUsernamePassword() {
     		
+    		
     		try {
+    			RuleSet ruleSet = RuleSetFactory.getRuleSet(LoginForm.this);
+    			ruleSet.applyRules(this);
     			ci.login(username.getText(), password.getText());
         		showMessage("Login successfully!");
         		LoginForm.INSTANCE.setVisible(false);
@@ -213,15 +221,24 @@ public class LoginForm extends JFrame implements LibWindow {
     	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
     	            LibrarySystem.INSTANCE.setVisible(true);
     	        });   			
+    		} catch (RuleException e) {
+    			Util.showMessage(this, e.getMessage());
     		} catch (LoginException e) {
     			// TODO Auto-generated catch block
-    			showMessage(e.getMessage());
+    			Util.showMessage(this, e.getMessage());
     			e.printStackTrace();
     		}
 
     		
     	}        
- 
+    	
+    	public String getUsername() {
+    		return username.getText().trim();
+    	}
+
+    	public String getPassword() {
+    		return password.getText().trim();
+    	}
         public void showMessage(String msg){
             JOptionPane.showMessageDialog(this, msg);
         }
