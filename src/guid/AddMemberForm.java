@@ -22,6 +22,9 @@ import business.LibraryMember;
 import business.SystemController;
 import librarysystem.LibWindow;
 import librarysystem.Util;
+import rulesets.RuleException;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
 
 public class AddMemberForm extends JFrame implements LibWindow{
 	private static final long serialVersionUID = 1L;
@@ -50,6 +53,9 @@ public class AddMemberForm extends JFrame implements LibWindow{
     private JButton addNewMember;
     private JPanel lowerPanel;
     
+    private Address address;
+	private LibraryMember libraryMember;
+	
 	public void init() {
 		mainPanel = new JPanel();
 		
@@ -319,20 +325,26 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	}
 	
 	private void addNewMember() {
-		
-		String memberId = memberID.getText();
-		if(memberID == null || "".equals(memberID)) {
-			Util.showMessage(this, "Member ID cannot be bank!");
-			return;
+		try {
+			String memberId = memberID.getText();
+			if(memberID == null || "".equals(memberID)) {
+				Util.showMessage(this, "Member ID cannot be bank!");
+				return;
+			}
+			String fname = firstName.getText();
+			String lname = lastName.getText();
+			String tel = phoneNumber.getText();
+			address = new Address(street.getText(), city.getText(), state.getText(), zip.getText());
+			libraryMember = new LibraryMember(memberId, fname, lname, tel, address);
+			//validate
+			RuleSet ruleSet = RuleSetFactory.getRuleSet(this);
+			ruleSet.applyRules(this);
+			
+			ci.saveNewMember(libraryMember);
+			Util.showMessage(this, "Member added!");
+		} catch (RuleException e) {
+			Util.showMessage(this, e.getMessage());
 		}
-		String fname = firstName.getText();
-		String lname = lastName.getText();
-		String tel = phoneNumber.getText();
-		Address address = new Address(street.getText(), city.getText(), state.getText(), zip.getText());
-		LibraryMember member = new LibraryMember(memberId, fname, lname, tel, address);
-		ci.saveNewMember(member);
-		Util.showMessage(this, "Member added!");
-		
 	}
 	
 	@Override
@@ -355,5 +367,10 @@ public class AddMemberForm extends JFrame implements LibWindow{
     		
 		}
 	}
+
+	public LibraryMember getLibraryMember() {
+		return libraryMember;
+	}
+	
 	
 }
