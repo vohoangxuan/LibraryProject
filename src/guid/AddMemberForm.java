@@ -116,11 +116,12 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	
 	private void defineMiddlePanel() {
 		middlePanel=new JPanel();
-		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		middlePanel.setLayout(new BorderLayout());
 		defineLeftTextPanel();
 		defineRightTextPanel();
-		middlePanel.add(leftTextPanel);
-		middlePanel.add(rightTextPanel);
+		middlePanel.add(leftTextPanel, BorderLayout.NORTH);
+		middlePanel.add(rightTextPanel, BorderLayout.CENTER);
 	}
 	
 	private void defineLowerPanel() {
@@ -146,35 +147,45 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		JPanel leftTextPanel12 = new JPanel();
 		leftTextPanel12.setLayout(new BorderLayout());
 		
+		//Member ID
 		JPanel panelMemIDLbl = new JPanel();
 		JLabel label4 = new JLabel("Member ID");
-		label4.setSize(180, 30);
 		panelMemIDLbl.add(label4);
 
-        //---- memberID3 ----
 		memberID = new JTextField();
         memberID.setColumns(10);
-        JPanel panelMemFld = new JPanel(); 
+        JPanel panelMemFld = new JPanel();
+        panelMemFld.setSize(500, 50);
         panelMemFld.add(memberID);
         
-        JPanel panelStreetLbl = new JPanel();
-        panelStreetLbl.setLayout(new FlowLayout());
-
-        JLabel label5 = new JLabel("Street");
-        label5.setSize(180, 30);
-        panelStreetLbl.add(label5);
-
-            //---- state ----
-        JPanel panelStreetFld = new JPanel();
-        street = new JTextField();
-        street.setColumns(10);
-        panelStreetFld.add(street);
+        //First Name
+		JPanel panelFnLbl = new JPanel();
+		JLabel label6 = new JLabel("First Name");
+		panelFnLbl.add(label6);
+		firstName = new JTextField();
+        firstName.setColumns(10);
+        JPanel panelFnFld = new JPanel(); 
+        panelFnFld.add(firstName);
         
-        leftTextPanel11.add(panelMemIDLbl, BorderLayout.NORTH);
-        leftTextPanel11.add(panelStreetLbl, BorderLayout.CENTER);
 
-		leftTextPanel12.add(panelMemFld, BorderLayout.NORTH);
-        leftTextPanel12.add(panelStreetFld, BorderLayout.CENTER);
+        //Last Name
+        JPanel panelLnLbl = new JPanel();
+		JLabel lblLn = new JLabel("Last Name");
+		lblLn.setSize(180, 30);
+		panelLnLbl.add(lblLn);
+
+        //---- Last name ----
+		lastName = new JTextField();
+        lastName.setColumns(10);
+        JPanel panelLnFld = new JPanel(); 
+        panelLnFld.add(lastName);
+        
+
+        leftTextPanel11.add(panelMemIDLbl, BorderLayout.NORTH);
+        leftTextPanel11.add(panelMemFld, BorderLayout.CENTER);
+
+		leftTextPanel12.add(panelFnLbl, BorderLayout.NORTH);
+        leftTextPanel12.add(panelFnFld, BorderLayout.CENTER);
         
         //----------------------
 		JPanel leftTextPanel21 = new JPanel();
@@ -182,33 +193,25 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		JPanel leftTextPanel22 = new JPanel();	
 		leftTextPanel22.setLayout(new BorderLayout());
 		
-		JPanel panelFnLbl = new JPanel();
-		JLabel label6 = new JLabel("First Name");
-		panelFnLbl.add(label6);
+
+
+		//Phone number
+		JPanel panelTelLbl = new JPanel();
+		JLabel lblTel = new JLabel("Phone number");
+		panelTelLbl.add(lblTel);
 
         //---- memberID3 ----
-		firstName = new JTextField();
-        firstName.setColumns(10);
-        JPanel panelFnFld = new JPanel(); 
-        panelFnFld.add(firstName);
+		phoneNumber = new JTextField();
+        phoneNumber.setColumns(10);
+        JPanel panelTelFld = new JPanel(); 
+        panelTelFld.add(phoneNumber);
+
         
-        JPanel panelCityLbl = new JPanel();
-        panelCityLbl.setLayout(new FlowLayout());
+        leftTextPanel21.add(panelLnLbl, BorderLayout.NORTH);
+        leftTextPanel21.add(panelLnFld, BorderLayout.CENTER);
 
-        JLabel label7 = new JLabel("City");
-        panelCityLbl.add(label7);
-
-            //---- city ----
-        JPanel panelCityFld = new JPanel();
-        city = new JTextField();
-        city.setColumns(10);
-        panelCityFld.add(city);
-        
-        leftTextPanel21.add(panelFnLbl, BorderLayout.NORTH);
-        leftTextPanel21.add(panelCityLbl, BorderLayout.CENTER);
-
-		leftTextPanel22.add(panelFnFld, BorderLayout.NORTH);
-        leftTextPanel22.add(panelCityFld, BorderLayout.CENTER);
+		leftTextPanel22.add(panelTelLbl, BorderLayout.NORTH);
+        leftTextPanel22.add(panelTelFld, BorderLayout.CENTER);
         
 		
 		leftTextPanel1.add(leftTextPanel11);
@@ -228,62 +231,47 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		rightTextPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
 		rightTextPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JPanel rightTextPanel11 = new JPanel();
-		rightTextPanel11.setLayout(new BorderLayout());
-		JPanel rightTextPanel12 = new JPanel();
-		rightTextPanel12.setLayout(new BorderLayout());
-		
-		JPanel panelLnLbl = new JPanel();
-		JLabel label4 = new JLabel("Last Name");
-		label4.setSize(180, 30);
-		panelLnLbl.add(label4);
-
-        //---- Last name ----
-		lastName = new JTextField();
-        lastName.setColumns(10);
-        JPanel panelMemFld = new JPanel(); 
-        panelMemFld.add(lastName);
+        JPanel panelStreetLbl = new JPanel();
+        panelStreetLbl.setLayout(new FlowLayout());
         
+        //Street
+        JLabel label5 = new JLabel("Street");
+        label5.setSize(180, 30);
+        panelStreetLbl.add(label5);
+        
+        JPanel panelStreetFld = new JPanel();
+        street = new JTextField();
+        street.setColumns(10);
+        panelStreetFld.add(street);        
+        
+        //City
+        JPanel panelCityLbl = new JPanel();
+        panelCityLbl.setLayout(new FlowLayout());
+        JLabel label7 = new JLabel("City");
+        panelCityLbl.add(label7);
+
+        JPanel panelCityFld = new JPanel();
+        city = new JTextField();
+        city.setColumns(10);
+        panelCityFld.add(city);
+        
+        //Zip
         JPanel panelZipLbl = new JPanel();
         panelZipLbl.setLayout(new FlowLayout());
 
-        JLabel label5 = new JLabel("Zip");
-        label5.setSize(180, 30);
-        panelZipLbl.add(label5);
+        JLabel lblZip = new JLabel("Zip");
+        panelZipLbl.add(lblZip);
 
-            //---- zip ----
         JPanel panelZipFld = new JPanel();
         zip = new JTextField();
         zip.setColumns(10);
         panelZipFld.add(zip);
         
-        rightTextPanel11.add(panelLnLbl, BorderLayout.NORTH);
-        rightTextPanel11.add(panelZipLbl, BorderLayout.CENTER);
-
-		rightTextPanel12.add(panelMemFld, BorderLayout.NORTH);
-        rightTextPanel12.add(panelZipFld, BorderLayout.CENTER);
-        
-        //----------------------
-		JPanel rightTextPanel21 = new JPanel();
-		rightTextPanel21.setLayout(new BorderLayout());
-		JPanel rightTextPanel22 = new JPanel();	
-		rightTextPanel22.setLayout(new BorderLayout());
-		
-		JPanel panelTelLbl = new JPanel();
-		JLabel label6 = new JLabel("Phone number");
-		panelTelLbl.add(label6);
-
-        //---- memberID3 ----
-		phoneNumber = new JTextField();
-        phoneNumber.setColumns(10);
-        JPanel panelFnFld = new JPanel(); 
-        panelFnFld.add(phoneNumber);
-        
+        //State
         JPanel panelStateLbl = new JPanel();
         panelStateLbl.setLayout(new FlowLayout());
-
-        JLabel label7 = new JLabel("State");
-        panelStateLbl.add(label7);
+        JLabel lblState = new JLabel("State");
+        panelStateLbl.add(lblState);
 
             //---- state ----
         JPanel panelStateFld = new JPanel();
@@ -291,10 +279,29 @@ public class AddMemberForm extends JFrame implements LibWindow{
         state.setColumns(10);
         panelStateFld.add(state);
         
-        rightTextPanel21.add(panelTelLbl, BorderLayout.NORTH);
-        rightTextPanel21.add(panelStateLbl, BorderLayout.CENTER);
+        
+		JPanel rightTextPanel11 = new JPanel();
+		rightTextPanel11.setLayout(new BorderLayout());
+		JPanel rightTextPanel12 = new JPanel();
+		rightTextPanel12.setLayout(new BorderLayout());
+		
+        rightTextPanel11.add(panelStreetLbl, BorderLayout.NORTH);
+        rightTextPanel11.add(panelStreetFld, BorderLayout.CENTER);
 
-		rightTextPanel22.add(panelFnFld, BorderLayout.NORTH);
+		rightTextPanel12.add(panelCityLbl, BorderLayout.NORTH);
+        rightTextPanel12.add(panelCityFld, BorderLayout.CENTER);
+        
+        //----------------------
+		JPanel rightTextPanel21 = new JPanel();
+		rightTextPanel21.setLayout(new BorderLayout());
+		JPanel rightTextPanel22 = new JPanel();	
+		rightTextPanel22.setLayout(new BorderLayout());
+        
+        
+        rightTextPanel21.add(panelZipLbl, BorderLayout.NORTH);
+        rightTextPanel21.add(panelZipFld, BorderLayout.CENTER);
+
+		rightTextPanel22.add(panelStateLbl, BorderLayout.NORTH);
         rightTextPanel22.add(panelStateFld, BorderLayout.CENTER);
         
 		
@@ -304,7 +311,6 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		rightTextPanel2.add(rightTextPanel22);
 		rightTextPanel.add(rightTextPanel1);
 		rightTextPanel.add(rightTextPanel2);
-		
 	}
 	
 	private void addAddMemberButtonListener(JButton butn) {
