@@ -29,7 +29,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember, addBook;
+    JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -39,7 +39,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE,
 		AddMemberForm.INSTANCE,
-		AddBookForm.INSTANCE
+		AddBookForm.INSTANCE,
+		CheckoutForm.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -104,10 +105,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
  		   addBook = new JMenuItem("Add Book");
  		   addBook.addActionListener(new AddBookListener());
  		   
+		   checkoutBook = new JMenuItem("Checkout Book");
+		   checkoutBook.addActionListener(new CheckoutBookListener());
+
  		   options.add(allBookIds);
  		   options.add(allMemberIds);
  		   options.add(addMember);
  		   options.add(addBook);
+		   options.add(checkoutBook);
  	   }
     }
     
@@ -199,6 +204,17 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AddBookForm.INSTANCE.init();
 			Util.centerFrameOnDesktop(AddBookForm.INSTANCE);
 			AddBookForm.INSTANCE.setVisible(true);
+		}
+	}
+
+	class CheckoutBookListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			CheckoutForm.INSTANCE.init();
+			Util.centerFrameOnDesktop(CheckoutForm.INSTANCE);
+			CheckoutForm.INSTANCE.setVisible(true);
 		}
 	}
 

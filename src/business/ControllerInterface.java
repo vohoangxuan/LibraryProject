@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import business.Book;
@@ -13,4 +14,5 @@ public interface ControllerInterface {
 	public void saveNewMember(LibraryMember member);
 	public Book addBook(String isbn, String title, int maxCheckoutLength, List<Author> authors, List<BookCopy> copies) throws BookException;
 	public List<Author> getAllAuthor();
+	public void addCheckoutEntry(String memId, String isbnNumb, LocalDate checkout, int due) throws BookException, MemberException ;
 }

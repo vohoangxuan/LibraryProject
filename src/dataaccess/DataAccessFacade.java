@@ -12,6 +12,8 @@ import java.util.List;
 import business.Author;
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
+import business.CheckoutRecordEntry;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
 
@@ -19,7 +21,7 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS, AUTHORS;
+		BOOKS, MEMBERS, USERS, AUTHORS, RECORDS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -31,6 +33,11 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
+		saveToStorage(StorageType.MEMBERS, mems);	
+	}
+	public void updateMemberRecord(String memberID, CheckoutRecordEntry entry) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		mems.get(memberID).getRecord().addEntry(entry);
 		saveToStorage(StorageType.MEMBERS, mems);	
 	}
 
@@ -55,7 +62,14 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, LibraryMember>) readFromStorage(
 				StorageType.MEMBERS);
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public HashMap<String, CheckoutRecord> readRecordMap() {
+		//Returns a Map with name/value pairs being
+		//   memberId -> LibraryMember
+		return (HashMap<String, CheckoutRecord>) readFromStorage(
+				StorageType.RECORDS);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
@@ -164,5 +178,15 @@ public class DataAccessFacade implements DataAccess {
 		}
 		private static final long serialVersionUID = 5399827794066637059L;
 	}
+
+
+
+	// @Override
+	// public void addCheckoutEntry(LibraryMember member, CheckoutRecord record) {
+	// 	HashMap<String, CheckoutRecord> data = readRecordMap();
+	// 	String id = member.getMemberId();
+	// 	data.put(id, record);
+	// 	saveToStorage(StorageType.RECORDS, record);
+	// }
 	
 }

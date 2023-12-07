@@ -104,6 +104,8 @@ public class TestData {
 	public void authorData() {
 		DataAccessFacade.loadAuthorMap(allAuthors);
 	}
+
+	
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
 		{

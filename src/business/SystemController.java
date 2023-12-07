@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,26 @@ public class SystemController implements ControllerInterface {
 	public List<Author> getAllAuthor() {
 		DataAccess da = new DataAccessFacade();
 		return da.readAuthorsMap().values().stream().toList();
+	}
+
+	@Override
+	public void addCheckoutEntry(String memId, String isbnNumb, LocalDate checkout, int due) throws BookException, MemberException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String,Book> mapBook = da.readBooksMap();
+		Book b = mapBook.get(isbnNumb);
+
+		// HashMap<String, LibraryMember> map = da.readMemberMap();
+		if (b.isAvailable()){
+			BookCopy copy = b.getNextAvailableCopy();
+			HashMap<String, LibraryMember> mapMem = da.readMemberMap();
+			if(!mapMem.containsKey(memId)){
+				throw new MemberException("Member ID does not exist");
+			}
+			da.updateMemberRecord(memId, new CheckoutRecordEntry(checkout, due, copy));
+		}
+		else{
+			throw new BookException("No book copy left");
+		}
 	}
 	
 }
