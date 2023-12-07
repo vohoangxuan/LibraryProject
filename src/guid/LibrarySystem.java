@@ -141,7 +141,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	options.add(addBook);
     	options.add(addBookCopy);
     	options.add(checkoutBook);
-    }
 
     }
     
