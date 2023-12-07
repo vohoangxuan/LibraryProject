@@ -16,4 +16,10 @@ public interface ControllerInterface {
 	public List<Author> getAllAuthor();
 	public void addCheckoutEntry(String memId, String isbnNumb, LocalDate checkout, int due) throws BookException, MemberException ;
 	public int getMaxMemberId();
+	public List<Book> getAllBook();
+	public Book addBookCopyByISBN(String isbn) throws BookException;
+	public BookCopy addBookCopy(Book book) throws BookException;
+	public void showError(String string);
+	public Book getBookById(String isbn) throws BookException;
+
 }

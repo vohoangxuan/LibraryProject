@@ -6,18 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import business.ControllerInterface;
 import business.SystemController;
-import librarysystem.AllBookIdsWindow;
 import librarysystem.AllMemberIdsWindow;
 import librarysystem.LibWindow;
 import librarysystem.Util;
@@ -29,7 +21,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook;
+    JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook, addBookCopy;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -40,6 +32,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllBookIdsWindow.INSTANCE,
 		AddMemberForm.INSTANCE,
 		AddBookForm.INSTANCE,
+		AddBookCopyForm.INSTANCE,
 		CheckoutForm.INSTANCE
 	};
     	
@@ -94,6 +87,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		options.add(login);
     	} else {
 
+    		allBookIds = new JMenuItem("All Books");
+    		allBookIds.addActionListener(new AllBookIdsListener());
+    		allMemberIds = new JMenuItem("All Member Ids");
+    		allMemberIds.addActionListener(new AllMemberIdsListener());
+
     		allBookIds = new JMenuItem("All Book Ids");
     		allBookIds.addActionListener(new AllBookIdsListener());
     		allMemberIds = new JMenuItem("All Member Ids");
@@ -104,6 +102,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
     		addBook = new JMenuItem("Add Book");
     		addBook.addActionListener(new AddBookListener());
+
+    		addBookCopy = new JMenuItem("Add Book Copy");
+    		addBookCopy.addActionListener(new AddBookCopyListener());
 
     		checkoutBook = new JMenuItem("Checkout Book");
     		checkoutBook.addActionListener(new CheckoutBookListener());
@@ -129,6 +130,19 @@ public class LibrarySystem extends JFrame implements LibWindow {
     			break;
     		}
     	}
+
+
+    	checkoutBook = new JMenuItem("Checkout Book");
+    	checkoutBook.addActionListener(new CheckoutBookListener());
+
+    	options.add(allBookIds);
+    	options.add(allMemberIds);
+    	options.add(addMember);
+    	options.add(addBook);
+    	options.add(addBookCopy);
+    	options.add(checkoutBook);
+    }
+
     }
     
     class LoginListener implements ActionListener {
@@ -220,6 +234,17 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AddBookForm.INSTANCE.init();
 			Util.centerFrameOnDesktop(AddBookForm.INSTANCE);
 			AddBookForm.INSTANCE.setVisible(true);
+		}
+	}
+
+	class AddBookCopyListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddBookCopyForm.INSTANCE.init();
+			Util.centerFrameOnDesktop(AddBookCopyForm.INSTANCE);
+			AddBookCopyForm.INSTANCE.setVisible(true);
 		}
 	}
 

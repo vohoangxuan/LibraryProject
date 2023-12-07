@@ -1,12 +1,10 @@
 package guid;
 
 import business.*;
-import librarysystem.AllBookIdsWindow;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -172,6 +170,39 @@ public class AddBookForm extends JFrame implements LibWindow {
     public void defineMiddleTableDataPanel() {
         dataTablePanel = new JPanel(new BorderLayout());
 
+        authors = authorI.getAllAuthor();
+        Object[] columnNameAuthors = new Object[]{"Is Author?","First Name","Last Name","Tel","Bio","Street","City","Zipcode","State"};
+
+        Object[][] dataTableAuthor = new Object[authors.size()][2];
+
+        for(int i = 0; i< authors.size();i++){
+            Author lm = authors.get(i);
+
+            dataTableAuthor[i] = new Object[]{false, lm.getFirstName(), lm.getLastName(), lm.getTelephone(), lm.getBio(),
+                    lm.getAddress().getStreet(),lm.getAddress().getCity(),lm.getAddress().getZip(),lm.getAddress().getState()};
+
+        }
+        modelAuthor = new DefaultTableModel(dataTableAuthor, columnNameAuthors){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column == 0)
+                    return true;
+                return false;
+            }
+        };
+        authorTable = new JTable(modelAuthor){
+            @Override
+            public Class<?> getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
+        dataTablePanel.add(new JScrollPane(authorTable), BorderLayout.NORTH);
+
         JPanel featurePanel = new JPanel();
         featurePanel.setLayout(new FlowLayout());
 
@@ -216,40 +247,17 @@ public class AddBookForm extends JFrame implements LibWindow {
                 }
             }
         });
-        dataTablePanel.add(featurePanel, BorderLayout.NORTH);
-
-        authors = authorI.getAllAuthor();
-        Object[] columnNameAuthors = new Object[]{"Is Author?","First Name","Last Name","Tel","Bio","Street","City","Zipcode","State"};
-
-        Object[][] dataTableAuthor = new Object[authors.size()][2];
-
-        for(int i = 0; i< authors.size();i++){
-            Author lm = authors.get(i);
-
-            dataTableAuthor[i] = new Object[]{false, lm.getFirstName(), lm.getLastName(), lm.getTelephone(), lm.getBio(),
-                    lm.getAddress().getStreet(),lm.getAddress().getCity(),lm.getAddress().getZip(),lm.getAddress().getState()};
-
-        }
-        modelAuthor = new DefaultTableModel(dataTableAuthor, columnNameAuthors){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                if(column == 0)
-                    return true;
-                return false;
-            }
-        };
-        authorTable = new JTable(modelAuthor){
-            @Override
-            public Class<?> getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return Boolean.class;
-                    default:
-                        return String.class;
-                }
-            }
-        };
-        dataTablePanel.add(new JScrollPane(authorTable), BorderLayout.SOUTH);
+        JButton goButton = new JButton("See All Books");
+        goButton.addActionListener(evt -> {
+            LibrarySystem.hideAllWindows();
+            AllBookIdsWindow.INSTANCE.init();
+            AllBookIdsWindow.INSTANCE.pack();
+            AllBookIdsWindow.INSTANCE.setVisible(true);
+            Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
+            this.dispose();
+        });
+        featurePanel.add(goButton);
+        dataTablePanel.add(featurePanel, BorderLayout.SOUTH);
     }
 
     private void clearTextFields() {

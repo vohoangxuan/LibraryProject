@@ -1,25 +1,18 @@
 package guid;
 
 import business.*;
-import librarysystem.AllBookIdsWindow;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CheckoutForm extends JFrame implements LibWindow {
     private static final long serialVersionUID = 1L;

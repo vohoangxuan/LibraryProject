@@ -103,5 +103,51 @@ public class SystemController implements ControllerInterface {
 			throw new BookException("No book copy left");
 		}
 	}
-	
+
+	@Override
+	public List<Book> getAllBook() {
+		DataAccess da = new DataAccessFacade();
+		return da.readBooksMap().values().stream().toList();
+	}
+
+	@Override
+	public Book addBookCopyByISBN(String isbn) throws BookException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		Book book = map.get(isbn);
+		if(book == null) {
+			throw new BookException("This ISBN does not exist in the system");
+		}
+		book.addCopy();
+		da.updateBook(book);
+		return book;
+	}
+
+	@Override
+	public BookCopy addBookCopy(Book book) throws BookException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		if (!map.containsKey(book.getIsbn())) {
+			throw new BookException("This ISBN does not exist in the system");
+		}
+		BookCopy bookCopy = book.addCopy();
+		da.updateBook(book);
+		return bookCopy;
+	}
+
+	@Override
+	public Book getBookById(String isbn) throws BookException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		Book book = map.get(isbn);
+		if (book == null) {
+			throw new BookException("This ISBN does not exist in the system");
+		}
+		return book;
+	}
+
+	@Override
+	public void showError(String string) {
+
+	}
 }
