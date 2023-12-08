@@ -2,7 +2,6 @@ package business;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,28 +12,17 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
+	public static User currentUser = null;
 	
 	public void logout(){
 		currentAuth = null;
+		currentUser = null;
 	}
 	public void saveNewMember(LibraryMember member) {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(member);
 	}
 	
-	public void login(String id, String password) throws LoginException {
-		DataAccess da = new DataAccessFacade();
-		HashMap<String, User> map = da.readUserMap();
-		if(!map.containsKey(id)) {
-			throw new LoginException("ID " + id + " not found");
-		}
-		String passwordFound = map.get(id).getPassword();
-		if(!passwordFound.equals(password)) {
-			throw new LoginException("Password incorrect");
-		}
-		currentAuth = map.get(id).getAuthorization();
-		
-	}
 	
 	public LibraryMember searchMember(String memberId) throws SearchMemberException {
 		DataAccess da = new DataAccessFacade();
@@ -164,4 +152,20 @@ public class SystemController implements ControllerInterface {
 	public void showError(String string) {
 
 	}
+	@Override
+	public void login(User loginUser) throws LoginException {
+
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, User> map = da.readUserMap();
+		if(!map.containsKey(loginUser.getId())) {
+			throw new LoginException("ID " + loginUser.getId() + " not found");
+		}
+		String passwordFound = map.get(loginUser.getId()).getPassword();
+		if(!passwordFound.equals(loginUser.getPassword())) {
+			throw new LoginException("Password incorrect");
+		}
+		currentAuth = map.get(loginUser.getId()).getAuthorization();
+		currentUser = loginUser;
+	}
+
 }

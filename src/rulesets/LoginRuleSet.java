@@ -2,6 +2,7 @@ package rulesets;
 
 import java.awt.Component;
 
+import dataaccess.User;
 import guid.LoginForm;
 
 
@@ -9,18 +10,14 @@ import guid.LoginForm;
 /**
  * Rules:
  * 1. all fields non empty
- * 2. favorite restaurant cannot equal favorite movie
- * 3. id must be numeric
- * 4. firstname and lastname fields may not contain spaces or 
- * characters other than a-z, A-Z.
  *
  */
 public class LoginRuleSet implements RuleSet {
 
-	private LoginForm loginForm;
+	private User loginUser;
 	@Override
 	public void applyRules(Component ob) throws RuleException {
-	loginForm = (LoginForm)ob;
+		loginUser = ((LoginForm)ob).getUser();
 		nonemptyRule();
 //		idNumericRule();
 //		favRestAndMovieRule();		
@@ -29,8 +26,8 @@ public class LoginRuleSet implements RuleSet {
 	}
 	
 	private void nonemptyRule() throws RuleException {
-		if(loginForm.getUsername().trim().isEmpty() ||
-				loginForm.getPassword().trim().isEmpty()){
+		if(loginUser.getId().trim().isEmpty() ||
+				loginUser.getPassword().trim().isEmpty()){
 			   throw new RuleException("Username and password must be nonempty");
 		}
 	}

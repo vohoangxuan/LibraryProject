@@ -4,12 +4,11 @@ package guid;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -21,6 +20,7 @@ import javax.swing.JOptionPane;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
+import dataaccess.User;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 import rulesets.RuleException;
@@ -28,9 +28,10 @@ import rulesets.RuleSet;
 import rulesets.RuleSetFactory;
 
 
-public class LoginForm extends JFrame implements LibWindow {
-    public static final LoginForm INSTANCE = new LoginForm();
-	
+public class LoginForm extends JInternalFrame implements LibWindow {
+	private static final long serialVersionUID = 1L;
+	public static final LoginForm INSTANCE = new LoginForm();
+    private User loginUser;
 	private boolean isInitialized = false;
 	
 	private JPanel mainPanel;
@@ -84,8 +85,8 @@ public class LoginForm extends JFrame implements LibWindow {
     	mainPanel.add(lowerHalf, BorderLayout.SOUTH);
     	getContentPane().add(mainPanel);
     	isInitialized(true);
-    	pack();
-    	//setSize(660, 500);
+//    	pack();
+    	setSize(647, 450);
 
 
     }
@@ -107,7 +108,7 @@ public class LoginForm extends JFrame implements LibWindow {
     		JSeparator s = new JSeparator();
     		s.setOrientation(SwingConstants.HORIZONTAL);
     		//middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
-    		middleHalf.add(s, BorderLayout.SOUTH);
+//    		middleHalf.add(s, BorderLayout.SOUTH);
     		
     	}
     	private void defineLowerHalf() {
@@ -117,7 +118,7 @@ public class LoginForm extends JFrame implements LibWindow {
     		
     		JButton backButton = new JButton("<= Back to Main");
     		addBackButtonListener(backButton);
-    		lowerHalf.add(backButton);
+//    		lowerHalf.add(backButton);
     		
     	}
     	private void defineTopPanel() {
@@ -143,7 +144,7 @@ public class LoginForm extends JFrame implements LibWindow {
     		middlePanel.add(rightTextPanel);
     	}
     	private void defineLowerPanel() {
-    		lowerPanel = new JPanel();
+    		lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     		loginButton = new JButton("Submit");
     		addLoginButtonListener(loginButton);
     		lowerPanel.add(loginButton);
@@ -207,8 +208,10 @@ public class LoginForm extends JFrame implements LibWindow {
     		
     		try {
     			RuleSet ruleSet = RuleSetFactory.getRuleSet(LoginForm.this);
+    			this.loginUser = new User(username.getText(), password.getText(), null);
     			ruleSet.applyRules(this);
-    			ci.login(username.getText(), password.getText());
+    			
+    			ci.login(loginUser);
         		LoginForm.INSTANCE.setVisible(false);
         		LoginForm.INSTANCE.dispose();
         		resetForm();
@@ -217,6 +220,8 @@ public class LoginForm extends JFrame implements LibWindow {
         		LibrarySystem.INSTANCE.init();
         		LibrarySystem.INSTANCE.addMenuItems();
  	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
+ 	            LibrarySystem.INSTANCE.setImage();
+ 	            LibrarySystem.INSTANCE.repaint();
  	            LibrarySystem.INSTANCE.setVisible(true);
  	            
         		/*
@@ -246,13 +251,10 @@ public class LoginForm extends JFrame implements LibWindow {
     		username.setText("");
     		password.setText("");
     	}
-    	public String getUsername() {
-    		return username.getText().trim();
+    	public User getUser() {
+    		return loginUser;
     	}
 
-    	public String getPassword() {
-    		return password.getText().trim();
-    	}
         public void showMessage(String msg){
             JOptionPane.showMessageDialog(this, msg);
         }

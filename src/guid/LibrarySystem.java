@@ -24,7 +24,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
     JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook, addBookCopy, logOut;
     String pathToImage;
     private boolean isInitialized = false;
+    private boolean isLogin = false;
     
+    
+    JDesktopPane desktop;
     private static LibWindow[] allWindows = {
     	LibrarySystem.INSTANCE,
 		guid.LoginForm.INSTANCE,
@@ -45,6 +48,18 @@ public class LibrarySystem extends JFrame implements LibWindow {
     private LibrarySystem() {}
     
     public void init() {
+    	if(isInitialized && SystemController.currentUser !=null)
+    		return;
+    	desktop = new JDesktopPane();
+    	LoginForm.INSTANCE.init();
+		LoginForm.INSTANCE.setVisible(SystemController.currentUser==null);
+		desktop.add(LoginForm.INSTANCE);
+		setContentPane(desktop);
+		setJMenuBar(createMenus());
+		setSize(660,500);
+		isInitialized = true;
+		
+		/*
     	if(isInitialized)
     		return;
     	formatContentPane();
@@ -55,12 +70,23 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		//pack();
 		setSize(660,500);
 		isInitialized = true;
+		*/
+		
+		
+    }
+    
+    public void setImage() {
+    	formatContentPane();
+    	setPathToImage();
+    	insertSplashImage();
     }
     
     private void formatContentPane() {
+    	
+    	getContentPane().removeAll();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(1,1));
-		getContentPane().add(mainPanel);	
+		setContentPane(mainPanel);
 	}
     
     private void setPathToImage() {
@@ -72,11 +98,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
         ImageIcon image = new ImageIcon(pathToImage);
 		mainPanel.add(new JLabel(image));	
     }
-    private void createMenus() {
+    private JMenuBar createMenus() {
     	menuBar = new JMenuBar();
 		menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
 		addMenuItems();
-		setJMenuBar(menuBar);		
+//		setJMenuBar(menuBar);	
+		return menuBar;
     }
     
     public void addMenuItems() {
@@ -84,12 +111,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	options = new JMenu("Options");  
     	menuBar.add(options);
 
-    	if( SystemController.currentAuth == null) {
-    		login = new JMenuItem("Login");
-    		login.addActionListener(new LoginListener());
-    		options.add(login);
-    	} else {
-
+    	if( SystemController.currentUser != null) {
     		allBookIds = new JMenuItem("All Books");
     		allBookIds.addActionListener(new AllBookIdsListener());
     		allMemberIds = new JMenuItem("All Member Ids");
@@ -135,16 +157,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		options.add(logOut);
     	}
     	
-
-
-/*
-    	options.add(allBookIds);
-    	options.add(allMemberIds);
-    	options.add(addMember);
-    	options.add(addBook);
-    	options.add(addBookCopy);
-    	options.add(checkoutBook);
-*/
     }
     
     class LoginListener implements ActionListener {
@@ -271,6 +283,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
             LibrarySystem.INSTANCE.addMenuItems();
             Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
             LibrarySystem.INSTANCE.setVisible(true);
+            LoginForm.INSTANCE.setVisible(true);
 		}		
 	}
 

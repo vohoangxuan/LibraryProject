@@ -3,12 +3,11 @@ package business;
 import java.time.LocalDate;
 import java.util.List;
 
-import business.Book;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
+import dataaccess.User;
+
 
 public interface ControllerInterface {
-	public void login(String id, String password) throws LoginException;
+	public void login(User loginUser) throws LoginException;
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public void saveNewMember(LibraryMember member);
