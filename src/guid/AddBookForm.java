@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddBookForm extends JFrame implements LibWindow {
@@ -20,12 +21,11 @@ public class AddBookForm extends JFrame implements LibWindow {
     public static String title = "Add New Book Form";
     public static final AddBookForm INSTANCE = new AddBookForm();
     private boolean isInitialized = false;
-    private JLabel headerLabel = new JLabel(title);
-    private JPanel leftAlignPanel = new JPanel();
-    private JPanel rightAlignPanel = new JPanel();
+    private JPanel leftPanel = new JPanel();
+    private JPanel rightPanel = new JPanel();
     private JPanel dataTablePanel = new JPanel();
 
-    // For book: ISBN, Title, MaxCheckOut
+    // For book: ISBN, Title, MaxCheckOut, Authors
     ControllerInterface bookI = new SystemController();
 
     private JLabel isbnLabel = new JLabel("ISBN");
@@ -37,26 +37,23 @@ public class AddBookForm extends JFrame implements LibWindow {
     private JLabel maxCheckOutLabel = new JLabel("Max Check Out Length");
     private JTextField maxCheckOutText = new JTextField(10);
 
-    private JPanel middlePanel = new JPanel(new FlowLayout());
-    private JPanel middleWrapperPanel = new JPanel(new BorderLayout());
+    private JButton authorBtn;
+    private JTextField authorText = new JTextField(10);
 
-    private JTextField textArea;
+    private JPanel middlePanel = new JPanel(new FlowLayout());
+
     private JPanel bottomPanel = new JPanel(new FlowLayout());
     private JPanel mainPanel = new JPanel(new BorderLayout());
 
     private JButton addBookBtn;
-
+    private JDialog dialog;
+    private JComboBox<JCheckBox> authorComboBox;
     private JTable authorTable;
     private Book book;
 
     private JLabel numberOfCopiesLabel = new JLabel("Number of copies");
     private JTextField numberOfCopiesText = new JTextField(10);
 
-    private JSplitPane splitPaneOuter;
-
-    private JPanel bottomPPanel = new JPanel(new BorderLayout());
-
-    // For Author
     ControllerInterface authorI = new SystemController();
 
     private List<Author> authors;
@@ -75,14 +72,12 @@ public class AddBookForm extends JFrame implements LibWindow {
         book = new Book("", "", 0, new ArrayList<Author>());
         setSize(600, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        updateHeaderLabel();
-        setupLeftAlignPanel();
-        setupRightAlignPanel();
+        defineLeftPanel();
+        defineRightPanel();
         defineMiddleTableDataPanel();
-        mainPanel.add(middleWrapperPanel, BorderLayout.CENTER);
-        middleWrapperPanel.add(middlePanel, BorderLayout.NORTH);
-        middleWrapperPanel.add(dataTablePanel, BorderLayout.CENTER);
-        middleWrapperPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(middlePanel, BorderLayout.NORTH);
+        mainPanel.add(dataTablePanel, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         setTitle(title);
         isInitialized(true);
         add(mainPanel);
@@ -99,47 +94,34 @@ public class AddBookForm extends JFrame implements LibWindow {
         isInitialized = val;
     }
 
-    private void updateHeaderLabel() {
-        Util.adjustLabelFont(headerLabel, Util.DARK_BLUE, true);
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panel.add(headerLabel);
-        mainPanel.add(panel, BorderLayout.NORTH);
-    }
-
-    private void setupLeftAlignPanel() {
-        leftAlignPanel.setLayout(new BoxLayout(leftAlignPanel, BoxLayout.Y_AXIS));
+    private void defineLeftPanel() {
+        authorBtn = new JButton("Authors");
+        authorBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAuthorSelectionDialog();
+            }
+        });
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         Component[] items = new Component[] {
                 isbnLabel,
                 titleLabel,
                 maxCheckOutLabel,
-                numberOfCopiesLabel
+                numberOfCopiesLabel,
+                authorBtn
         };
 
         for(Component c : items) {
-            leftAlignPanel.add(c);
-            leftAlignPanel.add(Box.createRigidArea(new Dimension(0, 12)));
+            leftPanel.add(c);
+            leftPanel.add(Box.createRigidArea(new Dimension(0, 12)));
         }
 
-        middlePanel.add(leftAlignPanel);
+        middlePanel.add(leftPanel);
     }
 
-    private void setupRightAlignPanel() {
-        rightAlignPanel.setLayout(new BoxLayout(rightAlignPanel, BoxLayout.Y_AXIS));
-
-        numberOfCopiesText.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                String value = numberOfCopiesText.getText();
-                int l = value.length();
-                if(e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
-                    numberOfCopiesText.setEditable(true);
-                } else {
-                    numberOfCopiesText.setEditable(false);
-                }
-            }
-        });
-
+    private void defineRightPanel() {
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         maxCheckOutText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -149,7 +131,22 @@ public class AddBookForm extends JFrame implements LibWindow {
                     maxCheckOutText.setEditable(true);
                 } else {
                     maxCheckOutText.setEditable(false);
+                    JOptionPane.showMessageDialog(mainPanel, "Please enter the number");
                 }
+            }
+        });
+        numberOfCopiesText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                String value = numberOfCopiesText.getText();
+                int l = value.length();
+                if(e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
+                    numberOfCopiesText.setEditable(true);
+                } else {
+                    numberOfCopiesText.setEditable(false);
+                    JOptionPane.showMessageDialog(mainPanel, "Please enter the number");
+                }
+
             }
         });
 
@@ -157,56 +154,24 @@ public class AddBookForm extends JFrame implements LibWindow {
                 isbnText,
                 titleText,
                 maxCheckOutText,
-                numberOfCopiesText
+                numberOfCopiesText,
+                authorText
         };
         for(Component c : items) {
-            rightAlignPanel.add(c);
-            rightAlignPanel.add(Box.createRigidArea(new Dimension(0,8)));
+            rightPanel.add(c);
+            rightPanel.add(Box.createRigidArea(new Dimension(0,8)));
         }
-
-        middlePanel.add(rightAlignPanel);
+        authorText.setEditable(false);
+        middlePanel.add(rightPanel);
     }
 
     public void defineMiddleTableDataPanel() {
         dataTablePanel = new JPanel(new BorderLayout());
 
-        authors = authorI.getAllAuthor();
-        Object[] columnNameAuthors = new Object[]{"Is Author?","First Name","Last Name","Tel","Bio","Street","City","Zipcode","State"};
-
-        Object[][] dataTableAuthor = new Object[authors.size()][2];
-
-        for(int i = 0; i< authors.size();i++){
-            Author lm = authors.get(i);
-
-            dataTableAuthor[i] = new Object[]{false, lm.getFirstName(), lm.getLastName(), lm.getTelephone(), lm.getBio(),
-                    lm.getAddress().getStreet(),lm.getAddress().getCity(),lm.getAddress().getZip(),lm.getAddress().getState()};
-
-        }
-        modelAuthor = new DefaultTableModel(dataTableAuthor, columnNameAuthors){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                if(column == 0)
-                    return true;
-                return false;
-            }
-        };
-        authorTable = new JTable(modelAuthor){
-            @Override
-            public Class<?> getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return Boolean.class;
-                    default:
-                        return String.class;
-                }
-            }
-        };
-        dataTablePanel.add(new JScrollPane(authorTable), BorderLayout.NORTH);
-
         JPanel featurePanel = new JPanel();
         featurePanel.setLayout(new FlowLayout());
 
-        JButton backButton = new JButton("<- Back to List");
+        JButton backButton = new JButton("<== Back to Main");
         backButton.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
             LibrarySystem.INSTANCE.init();
@@ -223,11 +188,14 @@ public class AddBookForm extends JFrame implements LibWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Author> newAuthors = new ArrayList<>();
-                TableModel tm = authorTable.getModel();
-                for(int i = 0; i < authors.size(); i++) {
-                    boolean isCheck = Boolean.parseBoolean(tm.getValueAt(i, 0).toString());
-                    if(isCheck) {
-                        newAuthors.add(authors.get(i));
+                List<Author> authors = bookI.getAllAuthor();
+                String[] selectedAuthorNames = authorText.getText().split(", ");
+
+                for(String name : selectedAuthorNames) {
+                    for(Author author : authors) {
+                        if(author.getFullName().equals(name)) {
+                            newAuthors.add(author);
+                        }
                     }
                 }
 
@@ -247,7 +215,7 @@ public class AddBookForm extends JFrame implements LibWindow {
                 }
             }
         });
-        JButton goButton = new JButton("See All Books");
+        JButton goButton = new JButton("See List Book IDs");
         goButton.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
             AllBookIdsWindow.INSTANCE.init();
@@ -260,19 +228,56 @@ public class AddBookForm extends JFrame implements LibWindow {
         dataTablePanel.add(featurePanel, BorderLayout.SOUTH);
     }
 
+
+    private void showAuthorSelectionDialog() {
+        Author[] allAuthors = bookI.getAllAuthor().toArray(new Author[0]);
+        dialog = new JDialog(this, "Select Authors", true);
+        dialog.setLayout(new BorderLayout());
+        List<JCheckBox> checkBoxes = new ArrayList<>();
+        for (Author author : allAuthors) {
+            JCheckBox checkBox = new JCheckBox(author.getFirstName() + " " + author.getLastName());
+            checkBoxes.add(checkBox);
+        }
+        JPanel checkBoxPanel = new JPanel(new GridLayout(0, 1));
+        for (JCheckBox checkBox : checkBoxes) {
+            checkBoxPanel.add(checkBox);
+        }
+
+        JButton confirmButton = new JButton("OK");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String> selectedAuthors = new ArrayList<>();
+                for (JCheckBox checkBox : checkBoxes) {
+                    if (checkBox.isSelected()) {
+                        selectedAuthors.add(checkBox.getText());
+                    }
+                }
+
+                authorText.setText(String.join(", ", selectedAuthors));
+
+                dialog.dispose();
+            }
+        });
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.add(checkBoxPanel, BorderLayout.CENTER);
+        contentPanel.add(confirmButton, BorderLayout.SOUTH);
+
+        dialog.add(contentPanel);
+
+        dialog.setSize(200, 150);
+        dialog.setVisible(true);
+
+    }
+
+
     private void clearTextFields() {
         maxCheckOutText.setText("");
         isbnText.setText("");
         titleText.setText("");
         numberOfCopiesText.setText("");
+        authorText.setText("");
         book = new Book("","",0,new ArrayList<>());
-
-        for (int i = 0; i < modelAuthor.getRowCount(); i++){
-            modelAuthor.setValueAt(false,i,0);
-        }
-        modelAuthor.fireTableDataChanged();
-        authorTable.repaint();
-        authorTable.updateUI();
         repaint();
     }
 }
