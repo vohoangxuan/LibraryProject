@@ -13,26 +13,9 @@ import librarysystem.Util;
 public class Main {
 
 	public static void main(String[] args) {
-		/*
 	      EventQueue.invokeLater(() -> 
 	         {
-	        	 LoginForm.INSTANCE.init();
-	 			 Util.centerFrameOnDesktop(LoginForm.INSTANCE);
-	 			LoginForm.INSTANCE.setVisible(true);
-	         });
-	      
-
-*/
-		// SearchMemberForm.INSTANCE.init();
-		// 	 Util.centerFrameOnDesktop(SearchMemberForm.INSTANCE);
-		// 	 SearchMemberForm.INSTANCE.setVisible(true);
-			 
-			  
-		
-		
-	      EventQueue.invokeLater(() -> 
-	         {
-	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
+	            LibrarySystem.INSTANCE.setTitle("Banned Animals Library Application");
 	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	            
 	            LibrarySystem.INSTANCE.init();
