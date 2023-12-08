@@ -9,7 +9,7 @@ class Test
 {
     public static void main(String[] args)
     {   
-        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\MEMBERS";
+        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\BOOKS";
  
         HashMap<String, LibraryMember> object1 = null;
  

@@ -93,13 +93,13 @@ public class SystemController implements ControllerInterface {
 		// HashMap<String, LibraryMember> map = da.readMemberMap();
 		if (b.isAvailable()){
 			BookCopy copy = b.getNextAvailableCopy();
-			System.out.println(copy);
 			HashMap<String, LibraryMember> mapMem = da.readMemberMap();
 			if(!mapMem.containsKey(memId)){
 				throw new MemberException("Member ID does not exist");
 			}
 			copy.changeAvailability();
 			da.updateMemberRecord(memId, new CheckoutRecordEntry(checkout, due, copy));
+			da.updateBook(b);
 		}
 		else{
 			throw new BookException("No book copy left");
