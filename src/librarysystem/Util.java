@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -76,4 +78,9 @@ public class Util {
 	public static void showMessage(Component f, String msg){
         JOptionPane.showMessageDialog(f, msg);
     }
+	
+	public static String formatMMDDYYYY(LocalDate date) {
+		DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/uuuu");
+		return date.format(formatters);
+	}
 }

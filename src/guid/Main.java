@@ -22,13 +22,14 @@ public class Main {
 	         });
 	      
 
-
-		CheckoutForm.INSTANCE.init();
-			 Util.centerFrameOnDesktop(CheckoutForm.INSTANCE);
-			 CheckoutForm.INSTANCE.setVisible(true);
+*/
+		SearchMemberForm.INSTANCE.init();
+			 Util.centerFrameOnDesktop(SearchMemberForm.INSTANCE);
+			 SearchMemberForm.INSTANCE.setVisible(true);
 			 
-			  */
+			  
 		
+		/*
 	      EventQueue.invokeLater(() -> 
 	         {
 	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
@@ -38,7 +39,7 @@ public class Main {
 	            centerFrameOnDesktop(LibrarySystem.INSTANCE);
 	            LibrarySystem.INSTANCE.setVisible(true);
 	         });
-	      
+	      */
 	   }
 	   
 	   public static void centerFrameOnDesktop(Component f) {
