@@ -99,50 +99,45 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	menuBar.add(options);
 
     	if( SystemController.currentUser != null) {
-    		allBookIds = new JMenuItem("All Books");
-    		allBookIds.addActionListener(new AllBookIdsListener());
     		allMemberIds = new JMenuItem("All Member Ids");
     		allMemberIds.addActionListener(new AllMemberIdsListener());
-
     		addMember = new JMenuItem("Add Member");
     		addMember.addActionListener(new AddMemberListener());
-
+			allBookIds = new JMenuItem("All Books");
+			allBookIds.addActionListener(new AllBookIdsListener());
 			addBook = new JMenuItem("Add Book");
 			addBook.addActionListener(new AddBookListener());
-
 			addBookCopy = new JMenuItem("Add Book Copy");
 			addBookCopy.addActionListener(new AddBookCopyListener());
-
     		checkoutBook = new JMenuItem("Checkout Book");
     		checkoutBook.addActionListener(new CheckoutBookListener());
-
+			searchOverDueEntries = new JMenuItem("Overdue Entries");
+			searchOverDueEntries.addActionListener(new OverDueEntriesListener());
     		logOut = new JMenuItem("Logout");
     		logOut.addActionListener(new LogoutListener());
     		
-    		searchOverDueEntries = new JMenuItem("Overdue Entries");
-    		searchOverDueEntries.addActionListener(new OverDueEntriesListener());
-    		
     		switch (SystemController.currentAuth) {
     		case LIBRARIAN:
+				options.add(allBookIds);
     			options.add(checkoutBook);
-    			options.add(allBookIds);
     			options.add(searchOverDueEntries);
     			break;
     		case ADMIN:
+				options.add(allMemberIds);
+				options.add(addMember);
     			options.add(allBookIds);
-    			options.add(allMemberIds);
-    			options.add(addMember);
 				options.add(addBook);
 				options.add(addBookCopy);
     			break;
     		case BOTH:
-    			options.add(checkoutBook);
+				options.add(allMemberIds);
     			options.add(addMember);
     			options.add(allBookIds);
-    			options.add(allMemberIds);
-    			options.add(searchOverDueEntries);
 				options.add(addBook);
 				options.add(addBookCopy);
+				options.add(checkoutBook);
+    			options.add(searchOverDueEntries);
+
     			break;
     		default:
     		}

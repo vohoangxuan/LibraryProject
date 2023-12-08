@@ -77,6 +77,7 @@ public class AddBookForm extends JFrame implements LibWindow {
         isInitialized(true);
         add(mainPanel);
         getContentPane().add(mainPanel);
+        pack();
     }
 
     @Override
