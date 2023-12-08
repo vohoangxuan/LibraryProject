@@ -3,17 +3,12 @@ package guid;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import business.Book;
-import business.BookException;
 import business.ControllerInterface;
 import business.SystemController;
 import librarysystem.LibWindow;
@@ -34,9 +29,9 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private JButton addCopyBtn;
 	private JScrollPane scrollPane;
 	private boolean isInitialized = false;
-	private DefaultTableModel model;
+	private DefaultTableModel model = new DefaultTableModel();
 
-	private AllBookIdsWindow() {}
+	private AllBookIdsWindow() {}   
 
 	public void init() {
 		if(isInitialized) {
