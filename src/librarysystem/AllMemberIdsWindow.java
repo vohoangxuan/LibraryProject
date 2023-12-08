@@ -3,6 +3,7 @@ package librarysystem;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.TextArea;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -31,6 +32,9 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	private AllMemberIdsWindow() {}
 	
 	public void init() {
+		if(isInitialized) {
+			refreshMemberIdList();
+		}
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		defineTopPanel();
@@ -91,6 +95,17 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 		
 	}
 	
+	public void refreshMemberIdList() {
+		List<String> ids = ci.allMemberIds();
+		Collections.sort(ids);
+		StringBuilder sb = new StringBuilder();
+		for(String s: ids) {
+			sb.append(s + "\n");
+		}
+		System.out.println(sb.toString());
+		AllMemberIdsWindow.INSTANCE.setData(sb.toString());
+		AllMemberIdsWindow.INSTANCE.repaint();
+	}
 }
 
 

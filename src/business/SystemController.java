@@ -49,6 +49,11 @@ public class SystemController implements ControllerInterface {
 		return maxId;
 	}
 	
+	public List<LibraryMember> getAllMembers() {
+		DataAccess da = new DataAccessFacade();
+		return new ArrayList<LibraryMember>(da.readMemberMap().values());
+	}
+	
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();

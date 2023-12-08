@@ -51,6 +51,7 @@ public class AddMemberForm extends JFrame implements LibWindow{
     private JTextField zip;
     private JTextField street;
     private JButton addNewMember;
+    private JButton viewAllMembers;
     private JPanel lowerPanel;
     
 	private LibraryMember libraryMember;
@@ -136,9 +137,14 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	private void defineLowerPanel() {
 		
 		lowerPanel = new JPanel();
+		lowerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addNewMember = new JButton("Save");
+		viewAllMembers = new JButton("View all members");
 		addAddMemberButtonListener(addNewMember);
+		viewAllMembersButtonListener(viewAllMembers);
+		
 		lowerPanel.add(addNewMember);
+		lowerPanel.add(viewAllMembers);
 		
 	}
 	
@@ -327,6 +333,10 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		);
 	}
 	
+	private void  viewAllMembersButtonListener(JButton butn) {
+		butn.addActionListener(evt->showAllMemberForm());
+	}
+	
 	private void addNewMember() {
 		try {
 			int maxId = ci.getMaxMemberId();
@@ -347,6 +357,12 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		} catch (RuleException e) {
 			Util.showMessage(this, e.getMessage());
 		}
+	}
+	private void showAllMemberForm() {
+		AllMembersForm.INSTANCE.setParentForm("AddMemberForm");
+		AllMembersForm.INSTANCE.init();
+		AllMembersForm.INSTANCE.setLocationByPlatform(true);
+		AllMembersForm.INSTANCE.setVisible(true);
 	}
 	
 	public void resetForm() {
