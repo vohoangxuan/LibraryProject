@@ -21,7 +21,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember, checkoutBook, addBookCopy, logOut;
+    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut;
     String pathToImage;
     private boolean isInitialized = false;
     private boolean isLogin = false;
@@ -34,7 +34,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE,
 		AddMemberForm.INSTANCE,
-		AddBookCopyForm.INSTANCE,
 		CheckoutForm.INSTANCE
 	};
     	
@@ -57,21 +56,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		setJMenuBar(createMenus());
 		setSize(660,500);
 		isInitialized = true;
-		
-		/*
-    	if(isInitialized)
-    		return;
-    	formatContentPane();
-    	setPathToImage();
-    	insertSplashImage();
-    	
-		createMenus();
-		//pack();
-		setSize(660,500);
-		isInitialized = true;
-		*/
-		
-		
     }
     
     public void setImage() {
@@ -118,9 +102,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
     		addMember = new JMenuItem("Add Member");
     		addMember.addActionListener(new AddMemberListener());
-
-    		addBookCopy = new JMenuItem("Add Book Copy");
-    		addBookCopy.addActionListener(new AddBookCopyListener());
 
     		checkoutBook = new JMenuItem("Checkout Book");
     		checkoutBook.addActionListener(new CheckoutBookListener());
@@ -233,18 +214,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
     	
     }
-
-
-	class AddBookCopyListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			LibrarySystem.hideAllWindows();
-			AddBookCopyForm.INSTANCE.init();
-			Util.centerFrameOnDesktop(AddBookCopyForm.INSTANCE);
-			AddBookCopyForm.INSTANCE.setVisible(true);
-		}
-	}
 
 	class CheckoutBookListener implements ActionListener {
 
