@@ -88,8 +88,16 @@ public class SystemController implements ControllerInterface {
 	public void addCheckoutEntry(String memId, String isbnNumb, LocalDate checkout, int due) throws BookException, MemberException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String,Book> mapBook = da.readBooksMap();
-		Book b = mapBook.get(isbnNumb);
-
+		Book b;
+		if (mapBook.containsKey(isbnNumb)){
+			b = mapBook.get(isbnNumb);
+		}
+		else{
+			throw new BookException("Requested book does not exist");
+		}
+		if (due > b.getMaxCheckoutLength()){
+			throw new BookException("Due date exceeds book max checkout length");
+		}
 		// HashMap<String, LibraryMember> map = da.readMemberMap();
 		if (b.isAvailable()){
 			BookCopy copy = b.getNextAvailableCopy();

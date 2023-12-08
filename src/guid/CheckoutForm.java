@@ -3,6 +3,8 @@ package guid;
 import business.*;
 import librarysystem.LibWindow;
 import librarysystem.Util;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -46,13 +48,6 @@ public class CheckoutForm extends JFrame implements LibWindow {
     private JPanel mainPanel = new JPanel(new BorderLayout());
 
     private JButton checkoutBtn;
-
-    private JTable authorTable;
-    private Book book;
-
-    private JSplitPane splitPaneOuter;
-
-    private JPanel bottomPPanel = new JPanel(new BorderLayout());
 
     // For Author
     ControllerInterface authorI = new SystemController();
@@ -166,11 +161,13 @@ public class CheckoutForm extends JFrame implements LibWindow {
                 int due = Integer.parseInt(dueDateText.getText());
 
                 try{
+                    RuleSet rules = RuleSetFactory.getRuleSet(CheckoutForm.this);
+                    rules.applyRules(CheckoutForm.this);
                     cf.addCheckoutEntry(memId, isbnNumb, ld, due);
                     clearTextFields();
                 }
                 catch(Exception err) {
-                    throw new RuntimeException(err);
+                    JOptionPane.showMessageDialog(CheckoutForm.this, err.getMessage()); 
                 }
             }
         });
@@ -183,6 +180,22 @@ public class CheckoutForm extends JFrame implements LibWindow {
         checkoutDate.setText("");
         dueDateText.setText("");
         repaint();
+    }
+
+    public String getMemberText() {
+        return memberText.getText();
+    }
+
+    public String getIsbnText() {
+        return isbnText.getText();
+    }
+
+    public String getCheckoutDateText() {
+        return checkoutDate.getText();
+    }
+
+    public String getDueDateText() {
+        return dueDateText.getText();
     }
 }
 
