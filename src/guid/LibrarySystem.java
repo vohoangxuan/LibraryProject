@@ -21,7 +21,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut, addBook, addBookCopy, searchOverDueEntries;
+    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut, addBook, addBookCopy, searchOverDueEntries, searchMember;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -113,6 +113,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		checkoutBook.addActionListener(new CheckoutBookListener());
 			searchOverDueEntries = new JMenuItem("Overdue Entries");
 			searchOverDueEntries.addActionListener(new OverDueEntriesListener());
+			searchMember = new JMenuItem("Search Member");
+			searchMember.addActionListener(new SearchMemberListener());
     		logOut = new JMenuItem("Logout");
     		logOut.addActionListener(new LogoutListener());
     		
@@ -120,6 +122,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		case LIBRARIAN:
 				options.add(allBookIds);
     			options.add(checkoutBook);
+    			options.add(searchMember);
     			options.add(searchOverDueEntries);
     			break;
     		case ADMIN:
@@ -127,6 +130,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 				options.add(addMember);
     			options.add(allBookIds);
 				options.add(addBook);
+				options.add(searchMember);
 				options.add(addBookCopy);
     			break;
     		case BOTH:
@@ -136,6 +140,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 				options.add(addBook);
 				options.add(addBookCopy);
 				options.add(checkoutBook);
+				options.add(searchMember);
     			options.add(searchOverDueEntries);
 
     			break;
@@ -281,6 +286,17 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			SearchOverDueBookForm.INSTANCE.init();
 			Util.centerFrameOnDesktop(SearchOverDueBookForm.INSTANCE);
 			SearchOverDueBookForm.INSTANCE.setVisible(true);
+		}
+	}
+	
+	class SearchMemberListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			SearchMemberForm.INSTANCE.init();
+			Util.centerFrameOnDesktop(SearchMemberForm.INSTANCE);
+			SearchMemberForm.INSTANCE.setVisible(true);
 		}
 	}
 	
