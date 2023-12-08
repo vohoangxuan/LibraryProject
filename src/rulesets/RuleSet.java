@@ -1,5 +1,7 @@
 package rulesets;
 
+import business.BookException;
+
 import java.awt.Component;
 
 public interface RuleSet {
