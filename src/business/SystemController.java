@@ -2,6 +2,7 @@ package business;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -179,6 +180,41 @@ public class SystemController implements ControllerInterface {
 		}
 		currentAuth = map.get(loginUser.getId()).getAuthorization();
 		currentUser = loginUser;
+	}
+	@Override
+	public HashMap<BookCopy, LibraryMember> findOverdueEntries(String isbn, LocalDate checkDate) throws BookException {
+
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		if (!map.containsKey(isbn)) {
+			throw new BookException("This ISBN does not exist");
+		}
+
+		HashMap<BookCopy,LibraryMember> bookCopyLibraryMemberMap = new HashMap<>();
+		Book book = map.get(isbn);
+		List<BookCopy> bookCopyList = Arrays.asList(book.getCopies());
+		
+		HashMap<String, LibraryMember> memberMap = da.readMemberMap();
+		for (LibraryMember member: memberMap.values()) {
+			if(member.getRecord() == null || member.getRecord().getRecord() == null)
+				continue;
+			List<CheckoutRecordEntry> entries = new ArrayList<CheckoutRecordEntry>(); 
+			entries.addAll(member.getRecord().getRecord());
+			member.getRecord().getRecord().clear();
+			for (int i = 0; i < entries.size(); i++) {
+				LocalDate dueDate = entries.get(i).getDueDate();
+				if(dueDate != null && (dueDate.isBefore(checkDate) || dueDate.isEqual(checkDate))) {
+					BookCopy copy = entries.get(i).getBookCopy();
+					if (bookCopyList.contains(copy) && !bookCopyLibraryMemberMap.containsKey(copy)) {
+						bookCopyLibraryMemberMap.put(copy,member);
+					} 
+					bookCopyLibraryMemberMap.get(copy).getRecord().getRecord().add(entries.get(i));
+					
+				}
+			}
+		}
+		return bookCopyLibraryMemberMap;
+	
 	}
 
 }

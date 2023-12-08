@@ -21,10 +21,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut;
+    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut, searchOverDueEntries;
     String pathToImage;
     private boolean isInitialized = false;
-    private boolean isLogin = false;
     
     
     JDesktopPane desktop;
@@ -34,7 +33,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE,
 		AddMemberForm.INSTANCE,
-		CheckoutForm.INSTANCE
+		CheckoutForm.INSTANCE,
+		SearchOverDueBookForm.INSTANCE
 	};
     	
 	public static void hideAllWindows() {	
@@ -109,10 +109,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		logOut = new JMenuItem("Logout");
     		logOut.addActionListener(new LogoutListener());
     		
+    		searchOverDueEntries = new JMenuItem("Overdue Entries");
+    		searchOverDueEntries.addActionListener(new OverDueEntriesListener());
+    		
     		switch (SystemController.currentAuth) {
     		case LIBRARIAN:
     			options.add(checkoutBook);
     			options.add(allBookIds);
+    			options.add(searchOverDueEntries);
     			break;
     		case ADMIN:
     			options.add(allBookIds);
@@ -124,9 +128,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
     			options.add(addMember);
     			options.add(allBookIds);
     			options.add(allMemberIds);
+    			options.add(searchOverDueEntries);
     			break;
     		default:
-    			options.add(logOut);
     		}
     		
     		options.add(logOut);
@@ -240,6 +244,17 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}		
 	}
 
+	class OverDueEntriesListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			SearchOverDueBookForm.INSTANCE.init();
+			Util.centerFrameOnDesktop(SearchOverDueBookForm.INSTANCE);
+			SearchOverDueBookForm.INSTANCE.setVisible(true);
+		}
+	}
+	
 	@Override
 	public boolean isInitialized() {
 		return isInitialized;
