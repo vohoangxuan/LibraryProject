@@ -21,7 +21,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private static String title = "All Book IDs";
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
 	ControllerInterface ci = new SystemController();
-	private JTable table;
 	private JPanel mainPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
@@ -31,7 +30,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private JScrollPane scrollPane;
 	private boolean isInitialized = false;
 	private DefaultTableModel model = new DefaultTableModel();
-
+	private JTable table = new JTable();
 	private AllBookIdsWindow() {}   
 
 	public void init() {
