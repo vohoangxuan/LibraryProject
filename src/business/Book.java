@@ -59,6 +59,13 @@ final public class Book implements Serializable {
 				.filter(x -> x.isAvailable())
 				.count();
 	}
+
+	public int totalCopies() {
+		if(copies == null) {
+			return 0;
+		}
+		return (int) Arrays.stream(copies).count();
+	}
 	
 	public BookCopy addCopy() {
 		BookCopy[] newArr = new BookCopy[copies.length + 1];
