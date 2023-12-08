@@ -164,6 +164,9 @@ public class CheckoutForm extends JFrame implements LibWindow {
                     RuleSet rules = RuleSetFactory.getRuleSet(CheckoutForm.this);
                     rules.applyRules(CheckoutForm.this);
                     cf.addCheckoutEntry(memId, isbnNumb, ld, due);
+
+                    Book book = cf.getBookById(isbnNumb);
+                    AllBookIdsWindow.INSTANCE.updateAvailableCountRecord(book);
                     clearTextFields();
                 }
                 catch(Exception err) {
