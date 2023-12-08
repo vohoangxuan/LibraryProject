@@ -55,14 +55,14 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel(new BorderLayout());
 		List<Book> data = getAllBook();
-		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count"};
+		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count / Total Copies"};
 
 		String[][] dataTable = new String[data.size()][5];
 
 		for(int i = 0; i< data.size();i++){
 			Book info = data.get(i);
 
-			dataTable[i] = new String[]{info.getIsbn(), info.getTitle(), String.valueOf(info.getMaxCheckoutLength()), String.valueOf(info.availableCount())};
+			dataTable[i] = new String[]{info.getIsbn(), info.getTitle(), String.valueOf(info.getMaxCheckoutLength()), String.valueOf(info.availableCount()) + "/" + String.valueOf(info.totalCopies())};
 
 		}
 		model = new DefaultTableModel(dataTable, columnNames){
