@@ -213,7 +213,9 @@ public class LoginForm extends JFrame implements LibWindow {
         		LoginForm.INSTANCE.dispose();
         		resetForm();
         		
+        		
         		LibrarySystem.INSTANCE.init();
+        		LibrarySystem.INSTANCE.addMenuItems();
  	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
  	            LibrarySystem.INSTANCE.setVisible(true);
  	            

@@ -79,7 +79,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		setJMenuBar(menuBar);		
     }
     
-    private void addMenuItems() {
+    public void addMenuItems() {
+    	menuBar.removeAll();
     	options = new JMenu("Options");  
     	menuBar.add(options);
 
@@ -267,6 +268,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			LibrarySystem.INSTANCE.dispose();
 			LibrarySystem.hideAllWindows();
             LibrarySystem.INSTANCE.init();
+            LibrarySystem.INSTANCE.addMenuItems();
             Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
             LibrarySystem.INSTANCE.setVisible(true);
 		}		
