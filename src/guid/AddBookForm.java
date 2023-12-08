@@ -47,18 +47,10 @@ public class AddBookForm extends JFrame implements LibWindow {
 
     private JButton addBookBtn;
     private JDialog dialog;
-    private JComboBox<JCheckBox> authorComboBox;
-    private JTable authorTable;
     private Book book;
 
     private JLabel numberOfCopiesLabel = new JLabel("Number of copies");
     private JTextField numberOfCopiesText = new JTextField(10);
-
-    ControllerInterface authorI = new SystemController();
-
-    private List<Author> authors;
-
-    DefaultTableModel modelAuthor;
 
     protected AddBookForm() {
 
