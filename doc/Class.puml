@@ -1,0 +1,61 @@
+@startuml
+class Person{
+    String firstName
+    String lastName
+    String telephone
+    Address address
+}
+
+class Address{
+    String street
+    String city
+    String state
+    String zip
+}
+
+class Book{
+    BookCopy[] copies
+    Author[] authors
+    String isbn
+    String title
+    int maxCheckoutLength
+}
+
+class BookCopy{
+    Book book
+    int copyNum
+    boolean isAvailable
+}
+
+class Author{
+    String bio
+}
+
+class LibraryMember{
+    String memberId
+}
+
+class User{
+    String id
+    String password
+    Auth authorization
+}
+
+class CheckoutRecordEntry{
+    checkoutDate
+    dueDate
+    bookCopy
+}
+
+class CheckoutRecord{
+
+}
+
+Person "1"-->"1" Address
+Author -r|> Person
+LibraryMember -d-|> Person
+LibraryMember "1"-d->"1" CheckoutRecord: has
+CheckoutRecordEntry "0..*"-down--*"1" CheckoutRecord
+Book "1..*"--o "1..*" Author
+BookCopy "0..*"--"1" Book
+@enduml

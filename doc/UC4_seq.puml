@@ -1,0 +1,21 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. Send ISBN
+activate UI
+UI -> Add_Copy_Handler: 2. Validate ISBN
+activate Add_Copy_Handler
+Add_Copy_Handler -> Add_Copy_Handler: 3. Update according state
+activate Add_Copy_Handler
+deactivate Add_Copy_Handler
+Add_Copy_Handler -> System_Controller: 4. Create a book copy in db
+activate System_Controller
+System_Controller -> System_Controller: 5. Update according db
+activate System_Controller
+deactivate System_Controller
+deactivate System_Controller
+Add_Copy_Handler -> Add_Copy_Handler: 6. Update UI according state
+activate Add_Copy_Handler
+deactivate Add_Copy_Handler
+deactivate Add_Copy_Handler
+@enduml

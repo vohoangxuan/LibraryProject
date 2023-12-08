@@ -106,7 +106,9 @@ public class SystemController implements ControllerInterface {
 			if(!mapMem.containsKey(memId)){
 				throw new MemberException("Member ID does not exist");
 			}
+			copy.changeAvailability();
 			da.updateMemberRecord(memId, new CheckoutRecordEntry(checkout, due, copy));
+			da.updateBook(b);
 		}
 		else{
 			throw new BookException("No book copy left");

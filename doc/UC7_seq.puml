@@ -1,0 +1,26 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. View ISBN overdue copies
+activate UI
+UI -> Book_Viewer: 2. Forward ISBN
+activate Book_Viewer
+Book_Viewer -> System_Controller: 3. Get overdue data
+activate System_Controller
+System_Controller -> System_Controller: 4. Read member's record
+activate System_Controller
+deactivate System_Controller
+System_Controller -> System_Controller: 5. Read book data
+activate System_Controller
+deactivate System_Controller
+System_Controller -> System_Controller: 6. Get all overdue copies
+activate System_Controller
+deactivate System_Controller
+deactivate System_Controller
+Book_Viewer -> Book_Viewer: 7. Set according state
+activate Book_Viewer
+deactivate Book_Viewer
+deactivate Book_Viewer
+UI -> UI: 8. Show overdue data
+activate UI
+@enduml

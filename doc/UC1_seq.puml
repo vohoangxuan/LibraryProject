@@ -1,0 +1,20 @@
+@startuml
+participant User
+
+User -> UI: 1. send login info
+activate UI
+UI -> Login_Handler: 2. forward login info
+activate Login_Handler
+Login_Handler -> System_Controller: 3. check login data
+activate System_Controller
+System_Controller -> System_Controller: 4. set according login status
+activate System_Controller
+deactivate System_Controller
+deactivate System_Controller
+Login_Handler -> Login_Handler: 5. set according state
+activate Login_Handler
+deactivate Login_Handler
+deactivate Login_Handler
+UI -> UI: 6. switch to next screen
+activate UI
+@enduml
