@@ -56,14 +56,14 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel(new BorderLayout());
 		List<Book> data = getAllBook();
-		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count / Total Copies"};
+		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count / Total Copies", "Authors"};
 
 		String[][] dataTable = new String[data.size()][5];
 
 		for(int i = 0; i< data.size();i++){
 			Book info = data.get(i);
 
-			dataTable[i] = new String[]{info.getIsbn(), info.getTitle(), String.valueOf(info.getMaxCheckoutLength()), String.valueOf(info.availableCount()) + "/" + String.valueOf(info.totalCopies())};
+			dataTable[i] = new String[]{info.getIsbn(), info.getTitle(), String.valueOf(info.getMaxCheckoutLength()), String.valueOf(info.availableCount()) + "/" + String.valueOf(info.totalCopies()), info.getAuthorName()};
 
 		}
 		model = new DefaultTableModel(dataTable, columnNames){
@@ -75,6 +75,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(1000, 500));
 		middlePanel.add(scrollPane, BorderLayout.CENTER);
 	}
 
@@ -142,7 +143,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	public void refreshTable(Book newBook){
-		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount()) + "/" + String.valueOf(newBook.totalCopies())});
+		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount()) + "/" + String.valueOf(newBook.totalCopies()), newBook.getAuthorName()});
 		reloadUI();
 	}
 
