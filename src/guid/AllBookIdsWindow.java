@@ -31,6 +31,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private JPanel lowerPanel;
 	private TextArea textArea = new TextArea();
 	private JButton addBookBtn;
+	private JButton addCopyBtn;
 	private JScrollPane scrollPane;
 	private boolean isInitialized = false;
 	private DefaultTableModel model;
@@ -91,7 +92,18 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 			}
 		});
 		contentPanel.add(addBookBtn, BorderLayout.EAST);
-
+		addCopyBtn = new JButton("Add Copy");
+		addCopyBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LibrarySystem.hideAllWindows();
+				AddBookCopyForm.INSTANCE.init();
+				AddBookCopyForm.INSTANCE.pack();
+				AddBookCopyForm.INSTANCE.setVisible(true);
+				Util.centerFrameOnDesktop(AddBookCopyForm.INSTANCE);
+			}
+		});
+		contentPanel.add(addCopyBtn, BorderLayout.CENTER);
 		JButton backBtn = new JButton("<== Back to Main");
 		backBtn.addActionListener(new BackToMainListener());
 		contentPanel.add(backBtn, BorderLayout.WEST);
@@ -122,7 +134,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		for(int i = 0; i < model.getRowCount(); i++) {
 			String isbn = model.getValueAt(i, 0).toString();
 			if(book.getIsbn().equals(isbn)) {
-				model.setValueAt(book.availableCount(), i, 3);
+				model.setValueAt(book.availableCount() + "/" + book.totalCopies(), i, 3);
 				reloadUI();
 				return;
 			}
@@ -130,7 +142,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	public void refreshTable(Book newBook){
-		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount())});
+		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount()) + "/" + String.valueOf(newBook.totalCopies())});
 		reloadUI();
 	}
 
@@ -142,7 +154,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-
 	}
 
 	private void reloadUI() {
