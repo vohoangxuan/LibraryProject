@@ -235,7 +235,7 @@ public class AddBookForm extends JFrame implements LibWindow {
         dialog.setLayout(new BorderLayout());
         List<JCheckBox> checkBoxes = new ArrayList<>();
         for (Author author : allAuthors) {
-            JCheckBox checkBox = new JCheckBox(author.getFirstName() + " " + author.getLastName());
+            JCheckBox checkBox = new JCheckBox(author.getFullName());
             checkBoxes.add(checkBox);
         }
         JPanel checkBoxPanel = new JPanel(new GridLayout(0, 1));
