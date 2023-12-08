@@ -21,11 +21,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook, addBookCopy;
+    JMenuItem login, allBookIds, allMemberIds, addMember, addBook, checkoutBook, addBookCopy, logOut;
     String pathToImage;
     private boolean isInitialized = false;
     
-    private static LibWindow[] allWindows = { 
+    private static LibWindow[] allWindows = {
     	LibrarySystem.INSTANCE,
 		guid.LoginForm.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
@@ -36,7 +36,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		CheckoutForm.INSTANCE
 	};
     	
-	public static void hideAllWindows() {		
+	public static void hideAllWindows() {	
 		for(LibWindow frame: allWindows) {
 			frame.setVisible(false);			
 		}
@@ -45,10 +45,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
     private LibrarySystem() {}
     
     public void init() {
+    	if(isInitialized)
+    		return;
     	formatContentPane();
     	setPathToImage();
     	insertSplashImage();
-		
+    	
 		createMenus();
 		//pack();
 		setSize(660,500);
@@ -104,7 +106,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		checkoutBook = new JMenuItem("Checkout Book");
     		checkoutBook.addActionListener(new CheckoutBookListener());
 
-
+    		logOut = new JMenuItem("Logout");
+    		logOut.addActionListener(new LogoutListener());
+    		
     		switch (SystemController.currentAuth) {
     		case LIBRARIAN:
     			options.add(checkoutBook);
@@ -123,9 +127,13 @@ public class LibrarySystem extends JFrame implements LibWindow {
     			options.add(allBookIds);
     			options.add(allMemberIds);
     			break;
+    		default:
+    			options.add(logOut);
     		}
+    		
+    		options.add(logOut);
     	}
-
+    	
 
 
 /*
@@ -250,6 +258,18 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			Util.centerFrameOnDesktop(CheckoutForm.INSTANCE);
 			CheckoutForm.INSTANCE.setVisible(true);
 		}
+	}
+	
+	class LogoutListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ci.logout();
+			LibrarySystem.INSTANCE.dispose();
+			LibrarySystem.hideAllWindows();
+            LibrarySystem.INSTANCE.init();
+            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
+            LibrarySystem.INSTANCE.setVisible(true);
+		}		
 	}
 
 	@Override

@@ -22,4 +22,5 @@ public interface ControllerInterface {
 	public void showError(String string);
 	public Book getBookById(String isbn) throws BookException;
 	public LibraryMember searchMember(String memberId) throws SearchMemberException;
+	public void logout();
 }

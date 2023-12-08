@@ -209,9 +209,15 @@ public class LoginForm extends JFrame implements LibWindow {
     			RuleSet ruleSet = RuleSetFactory.getRuleSet(LoginForm.this);
     			ruleSet.applyRules(this);
     			ci.login(username.getText(), password.getText());
-        		showMessage("Login successfully!");
         		LoginForm.INSTANCE.setVisible(false);
         		LoginForm.INSTANCE.dispose();
+        		resetForm();
+        		
+        		LibrarySystem.INSTANCE.init();
+ 	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
+ 	            LibrarySystem.INSTANCE.setVisible(true);
+ 	            
+        		/*
         		EventQueue.invokeLater(() -> 
     	        {
     	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
@@ -220,7 +226,8 @@ public class LoginForm extends JFrame implements LibWindow {
     	            LibrarySystem.INSTANCE.init();
     	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
     	            LibrarySystem.INSTANCE.setVisible(true);
-    	        });   			
+    	        });
+    	        */   			
     		} catch (RuleException e) {
     			Util.showMessage(this, e.getMessage());
     		} catch (LoginException e) {
@@ -232,6 +239,11 @@ public class LoginForm extends JFrame implements LibWindow {
     		
     	}        
     	
+    	
+    	private void resetForm() {
+    		username.setText("");
+    		password.setText("");
+    	}
     	public String getUsername() {
     		return username.getText().trim();
     	}

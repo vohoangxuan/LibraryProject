@@ -96,7 +96,15 @@ class CustomTableModel extends AbstractTableModel {
         if(tableValues==null) return 0;
         return tableValues.size();
     }
-
+    
+    public void removeAll(){
+    	if(tableValues!=null) {
+        int size = tableValues.size();
+        tableValues.clear();
+        fireTableRowsDeleted(0, size);
+    	}
+    }
+    
 	private static final long serialVersionUID = 3257846584573376055L;
 	    
 

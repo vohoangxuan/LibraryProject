@@ -14,6 +14,9 @@ import dataaccess.User;
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
 	
+	public void logout(){
+		currentAuth = null;
+	}
 	public void saveNewMember(LibraryMember member) {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(member);

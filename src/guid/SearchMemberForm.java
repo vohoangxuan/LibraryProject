@@ -20,6 +20,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import business.Address;
 import business.CheckoutRecordEntry;
@@ -61,11 +63,10 @@ public class SearchMemberForm extends JFrame implements LibWindow{
     private JButton searchMember;
     private final boolean USE_DEFAULT_DATA = true;
     JTable table;
-	JScrollPane tablePane;
+	JScrollPane scrollPane;
 	
     //table data and config
-	private final String[] DEFAULT_COLUMN_HEADERS = {"Check out date","Due date","ISBN","Title"};
-
+	private final String[] DEFAULT_COLUMN_HEADERS = {"Book title", "ISBN", "Check out date","Due date","Copy"};
 	
     private Address address;
 	private LibraryMember libraryMember;
@@ -73,6 +74,24 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	public void init() {
 		if(isInitialized())
     		return;
+		try {
+////		firstName.setText(libraryMember.getFirstName());
+////		lastName.setText(libraryMember.getLastName());
+////		phoneNumber.setText(libraryMember.getTelephone()); 
+//		Address addr = libraryMember.getAddress();
+//		if(addr != null) {
+//			street.setText(addr.getStreet());
+//			city.setText(addr.getCity());
+//			zip.setText(addr.getZip());
+//			state.setText(addr.getState());
+//		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 		mainPanel = new JPanel();
 		
     	defineUpperHalf();
@@ -162,18 +181,10 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new BorderLayout());
 		
-		lowerPanelRow1 = new JPanel();
-		createTableAndTablePane();
-		GuiControl.createCustomColumns(table, 
-		                               800,
-		                               new float []{0.4f, 0.2f, 0.2f, 0.2f},
-		                               DEFAULT_COLUMN_HEADERS);
-		                   		
-		lowerPanelRow1 = GuiControl.createStandardTablePanePanel(table,tablePane);
-		
+		defineLowerPanelRow1();
 		lowerPanelRow2 = new JPanel();
 		
-		lowerPanel.add(lowerPanelRow1, BorderLayout.NORTH);
+		lowerPanel.add(scrollPane, BorderLayout.NORTH);//lowerPanelRow1
 		lowerPanel.add(lowerPanelRow2, BorderLayout.CENTER);
 		/*
 		addNewMember = new JButton("Save");
@@ -182,7 +193,129 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		*/
 		
 	}
+
+	//table
+	public void defineLowerPanelRow1(){
+		createTableAndTablePane();
+		/*
+		GuiControl.createCustomColumns(table, 
+		                               800,
+		                               new float []{0.4f, 0.2f, 0.2f, 0.2f},
+		                               DEFAULT_COLUMN_HEADERS);
+		                   		
+		lowerPanelRow1 = GuiControl.createStandardTablePanePanel(table,tablePane);
+				*/
+	}
 	
+	// --------------------------------------------------------------------
+	private void createTableAndTablePane() {
+		updateModel(); 
+		table = new JTable(model);
+		createCustomColumns(table, 800,
+				new float []{0.25f, 0.15f, 0.15f, 0.15f, 0.15f}, DEFAULT_COLUMN_HEADERS);
+		scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(
+				new Dimension(800, 300));
+		scrollPane.getViewport().add(table);
+	}
+
+	private void updateModel() {
+		List<String[]> list = new ArrayList<String[]>();
+		if(model == null) {
+			model = new CustomTableModel();
+		}
+		model.setTableValues(list);
+	}
+	
+	private void createCustomColumns(JTable table, int width, float[] proportions,
+		  String[] headers) {
+		table.setAutoCreateColumnsFromModel(false);
+        int num = headers.length;
+        for(int i = 0; i < num; ++i) {
+            TableColumn column = new TableColumn(i);
+            column.setHeaderValue(headers[i]);
+            column.setMinWidth(Math.round(proportions[i]*width));
+            table.addColumn(column);
+        }
+	}
+
+	class ButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setValues(model);
+			table.updateUI();			
+		}
+	}
+	
+	private void setValues(CustomTableModel model) {
+		model.removeAll();
+		List<String[]> data = new ArrayList<String[]>();
+		if(libraryMember == null) 
+			return;
+		
+		if(libraryMember.getRecord() == null)
+			return;
+		List<CheckoutRecordEntry> recordEntries = libraryMember.getRecord().getRecord();
+		
+		for (CheckoutRecordEntry e : recordEntries) {
+			String[] entry = new String[5];//"Title", "ISBN", "Check out date","Due date", "Copy num"
+			if(e.getBookCopy() == null || e.getBookCopy().getBook() == null) {
+				entry[0] = "";
+				entry[1] = "";
+				entry[4] = "";
+			} else {
+				entry[0] = e.getBookCopy().getBook().getTitle();
+				entry[1] = e.getBookCopy().getBook().getIsbn();
+				entry[4] = String.valueOf(e.getBookCopy().getCopyNum());
+			}
+			entry[2] = Util.formatMMDDYYYY(e.getCheckoutDate());
+			entry[3] = Util.formatMMDDYYYY(e.getDueDate());
+			data.add(entry);
+		}
+		model.setTableValues(data);	
+	}	
+	// --------------------------------------------------------------------
+	
+	private void searchMember() {
+		try {
+			String memberId = memberID.getText().trim();
+			libraryMember = ci.searchMember(memberId);
+			firstName.setText(libraryMember.getFirstName());
+			lastName.setText(libraryMember.getLastName());
+			phoneNumber.setText(libraryMember.getTelephone()); 
+			Address addr = libraryMember.getAddress();
+			if(addr != null) {
+				street.setText(addr.getStreet());
+				city.setText(addr.getCity());
+				zip.setText(addr.getZip());
+				state.setText(addr.getState());
+			}
+			
+
+			setValues(model);
+			table.updateUI();
+			printEntries();
+			
+			/*
+			String fname = firstName.getText();
+			String lname = lastName.getText();
+			String tel = phoneNumber.getText();
+			address = new Address(street.getText(), city.getText(), state.getText(), zip.getText());
+			libraryMember = new LibraryMember(memberId, fname, lname, tel, address);
+			//validate
+			RuleSet ruleSet = RuleSetFactory.getRuleSet(this);
+			ruleSet.applyRules(this);
+			
+			Util.showMessage(this, "Member added!");
+			*/
+		} catch (SearchMemberException e) {
+			Util.showMessage(this, e.getMessage());
+			resetForm();
+		}
+	}
+	
+	
+	//Search part
 	private void defineMiddlePanelRow() {
 		middlePanelRow1 = new JPanel();
 		middlePanelRow1.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -389,57 +522,14 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		rightTextPanel.add(rightTextPanel2);
 	}
 
-	//table
-	public void defineLowerPanelRow1(){
-		createTableAndTablePane();
-		GuiControl.createCustomColumns(table, 
-		                               800,
-		                               new float []{0.4f, 0.2f, 0.2f, 0.2f},
-		                               DEFAULT_COLUMN_HEADERS);
-		                   		
-		lowerPanelRow1 = GuiControl.createStandardTablePanePanel(table,tablePane);
-				
-	}
+
 	
 	private void addSearchMemberButtonListener(JButton butn) {
 		butn.addActionListener(evt -> searchMember()
 		);
 	}
 	
-	private void searchMember() {
-		try {
-			String memberId = memberID.getText().trim();
-			libraryMember = ci.searchMember(memberId);
-			firstName.setText(libraryMember.getFirstName());
-			lastName.setText(libraryMember.getLastName());
-			phoneNumber.setText(libraryMember.getTelephone()); 
-			Address addr = libraryMember.getAddress();
-			if(addr != null) {
-				street.setText(addr.getStreet());
-				city.setText(addr.getCity());
-				zip.setText(addr.getZip());
-				state.setText(addr.getState());
-			}
-			
-			createTableAndTablePane();
-			repaint();
-			/*
-			String fname = firstName.getText();
-			String lname = lastName.getText();
-			String tel = phoneNumber.getText();
-			address = new Address(street.getText(), city.getText(), state.getText(), zip.getText());
-			libraryMember = new LibraryMember(memberId, fname, lname, tel, address);
-			//validate
-			RuleSet ruleSet = RuleSetFactory.getRuleSet(this);
-			ruleSet.applyRules(this);
-			
-			Util.showMessage(this, "Member added!");
-			*/
-		} catch (SearchMemberException e) {
-			Util.showMessage(this, e.getMessage());
-			resetForm();
-		}
-	}
+
 	
 	public void resetForm() {
 		memberID.setText("");
@@ -476,58 +566,37 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	public LibraryMember getLibraryMember() {
 		return libraryMember;
 	}
-	
-	private void createTableAndTablePane() {
-		updateModel();
-		table = new JTable(model);
-		tablePane = new JScrollPane();
-		tablePane.setPreferredSize(new Dimension(800, 500));
-		tablePane.getViewport().add(table);
-		
-	}
-	public void updateModel(List<String[]> list){
-		if(model == null) {
-	        model = new CustomTableModel();
-    	    
-		}
-		model.setTableValues(list);		
-	}	
-	/**
-	 * If default data is being used, this method obtains it
-	 * and then passes it to updateModel(List). If real data is
-	 * being used, the public updateModel(List) should be called by
-	 * the controller class.
-	 */
-	private void updateModel() {
-		List<String[]> theData = new ArrayList<String[]>();
-		if(libraryMember == null) 
-			return;
+
+	private void printEntries() {
+		System.out.printf("---------------------------------------------------------------------------------------------%n");
+		System.out.printf("");
+		System.out.printf("%-40s %n", " Member ID: " + libraryMember.getMemberId());
+		System.out.printf("");
+		System.out.printf("---------------------------------------------------------------------------------------------%n");
+		System.out.printf("| %-40s | %-10s | %-15s | %-15s | %n", "Book title", "ISBN", "Check out date","Due date","Copy");
+		System.out.printf("---------------------------------------------------------------------------------------------%n");
+
 		
 		if(libraryMember.getRecord() == null)
 			return;
 		List<CheckoutRecordEntry> recordEntries = libraryMember.getRecord().getRecord();
 		
 		for (CheckoutRecordEntry e : recordEntries) {
-			String[] entry = new String[4];//"Check out date","Due date","ISBN","Title"
-			entry[0] = Util.formatMMDDYYYY(e.getCheckoutDate());
-			entry[1] = Util.formatMMDDYYYY(e.getDueDate());
+			String[] entry = new String[5];//"Title", "ISBN", "Check out date","Due date", "Copy num"
 			if(e.getBookCopy() == null || e.getBookCopy().getBook() == null) {
-				entry[2] = "";
-				entry[3] = "";
+				entry[0] = "";
+				entry[1] = "";
+				entry[4] = "";
+			} else {
+				entry[0] = e.getBookCopy().getBook().getTitle();
+				entry[1] = e.getBookCopy().getBook().getIsbn();
+				entry[4] = String.valueOf(e.getBookCopy().getCopyNum());
 			}
-			entry[2] = e.getBookCopy().getBook().getIsbn();
-			entry[3] = e.getBookCopy().getBook().getTitle();
-			theData.add(entry);
+			entry[2] = Util.formatMMDDYYYY(e.getCheckoutDate());
+			entry[3] = Util.formatMMDDYYYY(e.getDueDate());
+			System.out.printf("| %-40s | %-10s | %-15s | %-15s | %n", entry[0], entry[1], entry[2],entry[3],entry[4]);
 		}
-		updateModel(theData);
- 
+	
+		System.out.printf("---------------------------------------------------------------------------------------------%n");
 	}
-
-    private void updateTable() {
-        
-        table.setModel(model);
-        table.updateUI();
-        repaint();
-        
-    }		
 }
