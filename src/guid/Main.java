@@ -20,18 +20,18 @@ public class Main {
 		 * 
 		 */
 		
-		  AddMemberForm.INSTANCE.init();
-		  Util.centerFrameOnDesktop(AddMemberForm.INSTANCE); 
-		  AddMemberForm.INSTANCE.setVisible(true);
+		//   AddMemberForm.INSTANCE.init();
+		//   Util.centerFrameOnDesktop(AddMemberForm.INSTANCE); 
+		//   AddMemberForm.INSTANCE.setVisible(true);
 
 		
-		  /*EventQueue.invokeLater(() -> {
+		  EventQueue.invokeLater(() -> {
 		  LibrarySystem.INSTANCE.setTitle("Sample Library Application");
 		  LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		  
 		  LibrarySystem.INSTANCE.init(); centerFrameOnDesktop(LibrarySystem.INSTANCE);
 		  LibrarySystem.INSTANCE.setVisible(true); });
-		  */
+		  
 		  
 		 
 	}

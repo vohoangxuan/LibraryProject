@@ -35,11 +35,13 @@ public class CheckoutForm extends JFrame implements LibWindow {
     private JTextField isbnText = new JTextField(10);
 
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy"); 
+    String defaultDate = formatter.format(LocalDate.now());
     private JLabel checkout = new JLabel("Checkout date");
     private JTextField checkoutDate = new JFormattedTextField(df);
 
-    private JLabel dueDate = new JLabel("Due date");
-    private JTextField dueDateText = new JTextField();
+    private JLabel dueDate = new JLabel("Due after (days)");
+    private JTextField dueDateText = new JTextField("7");
 
     private JPanel middlePanel = new JPanel(new FlowLayout());
     private JPanel middleWrapperPanel = new JPanel(new BorderLayout());
@@ -76,6 +78,7 @@ public class CheckoutForm extends JFrame implements LibWindow {
         isInitialized(true);
         add(mainPanel);
         getContentPane().add(mainPanel);
+        checkoutDate.setText(defaultDate);
     }
 
     @Override
@@ -181,7 +184,8 @@ public class CheckoutForm extends JFrame implements LibWindow {
         memberText.setText("");
         isbnText.setText("");
         checkoutDate.setText("");
-        dueDateText.setText("");
+        dueDateText.setText("7");
+        checkoutDate.setText(defaultDate);
         repaint();
     }
 
