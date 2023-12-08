@@ -21,5 +21,5 @@ public interface ControllerInterface {
 	public BookCopy addBookCopy(Book book) throws BookException;
 	public void showError(String string);
 	public Book getBookById(String isbn) throws BookException;
-
+	public LibraryMember searchMember(String memberId) throws SearchMemberException;
 }

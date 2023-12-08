@@ -33,6 +33,15 @@ public class SystemController implements ControllerInterface {
 		
 	}
 	
+	public LibraryMember searchMember(String memberId) throws SearchMemberException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> map = da.readMemberMap();
+		if(!map.containsKey(memberId)) {
+			throw new SearchMemberException("Member ID " + memberId + " not found");
+		} else {
+			return map.get(memberId);
+		}
+	}
 	public int getMaxMemberId() {
 		List<String> allMemIds = allMemberIds();
 		int maxId = 0;

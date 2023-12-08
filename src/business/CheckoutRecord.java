@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CheckoutRecord implements Serializable {
+	private static final long serialVersionUID = 5826456330951355483L;
     private ArrayList<CheckoutRecordEntry> record = new ArrayList<CheckoutRecordEntry>();
     public CheckoutRecord(){
     }
@@ -18,4 +19,9 @@ public class CheckoutRecord implements Serializable {
         }
 		return ret;
 	}
+	public ArrayList<CheckoutRecordEntry> getRecord() {
+		return record;
+	}
+    
+    
 }
