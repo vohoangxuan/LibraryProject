@@ -59,6 +59,13 @@ final public class Book implements Serializable {
 				.filter(x -> x.isAvailable())
 				.count();
 	}
+
+	public int totalCopies() {
+		if(copies == null) {
+			return 0;
+		}
+		return (int) Arrays.stream(copies).count();
+	}
 	
 	public BookCopy addCopy() {
 		BookCopy[] newArr = new BookCopy[copies.length + 1];
@@ -98,6 +105,19 @@ final public class Book implements Serializable {
 	public String getTitle() {
 		return title;
 	}
+
+	public String getAuthorName() {
+		StringBuilder name = new StringBuilder();
+		for(Author author : authors) {
+			name.append(author.getFullName()).append(", ");
+		}
+		if (name.length() > 0) {
+			name.delete(name.length() - 2, name.length());
+		}
+
+		return name.toString();
+	}
+
 	public BookCopy[] getCopies() {
 		return copies;
 	}

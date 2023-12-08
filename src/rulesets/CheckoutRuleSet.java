@@ -14,6 +14,7 @@ import guid.CheckoutForm;
 public class CheckoutRuleSet implements RuleSet {
 	private CheckoutForm checkoutForm;
 
+    
 	@Override
 	public void applyRules(Component ob) throws RuleException {
 		checkoutForm = (CheckoutForm) ob; 

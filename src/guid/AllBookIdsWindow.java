@@ -22,76 +22,65 @@ import librarysystem.Util;
 
 public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private static final long serialVersionUID = 1L;
+	private static String title = "All Book IDs";
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
-    ControllerInterface ci = new SystemController();
+	ControllerInterface ci = new SystemController();
 	private JTable table;
 	private JPanel mainPanel;
-	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
 	private TextArea textArea = new TextArea();
 	private JButton addBookBtn;
+	private JButton addCopyBtn;
+	private JScrollPane scrollPane;
 	private boolean isInitialized = false;
 	private DefaultTableModel model;
-	//Singleton class
+
 	private AllBookIdsWindow() {}
-	
+
 	public void init() {
 		if(isInitialized) {
 			return;
 		}
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		defineTopPanel();
 		defineMiddlePanel();
 		defineLowerPanel();
-		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
 		mainPanel.add(lowerPanel, BorderLayout.SOUTH);
+		setTitle(title);
 		getContentPane().add(mainPanel);
 		isInitialized = true;
 	}
-	
-	public void defineTopPanel() {
-		topPanel = new JPanel();
-		JLabel AllIDsLabel = new JLabel("All Books");
-		Util.adjustLabelFont(AllIDsLabel, Util.DARK_BLUE, true);
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		topPanel.add(AllIDsLabel);
-	}
-	
+
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel(new BorderLayout());
-		createTable();
-		table.addMouseListener(new MouseAdapter() {
+		List<Book> data = getAllBook();
+		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count / Total Copies", "Authors"};
+
+		String[][] dataTable = new String[data.size()][5];
+
+		for(int i = 0; i< data.size();i++){
+			Book info = data.get(i);
+
+			dataTable[i] = new String[]{info.getIsbn(), info.getTitle(), String.valueOf(info.getMaxCheckoutLength()), String.valueOf(info.availableCount()) + "/" + String.valueOf(info.totalCopies()), info.getAuthorName()};
+
+		}
+		model = new DefaultTableModel(dataTable, columnNames){
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount() == 2) {
-					JTable target = (JTable) e.getSource();
-					int row = target.getSelectedRow();
-					TableModel tm = table.getModel();
-					String isbn = tm.getValueAt(row, 0).toString();
-
-					EventQueue.invokeLater(() -> {
-						BookDetailForm bookDetailForm = new BookDetailForm();
-						try {
-							bookDetailForm.setBook(isbn);
-						} catch (BookException err) {
-							throw new RuntimeException(err);
-						}
-						bookDetailForm.init();
-						bookDetailForm.setVisible(true);
-					});
-				}
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		});
-		middlePanel.add(new JScrollPane(table), BorderLayout.CENTER);
+		};
+
+		table = new JTable(model);
+		scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(1000, 500));
+		middlePanel.add(scrollPane, BorderLayout.CENTER);
 	}
-	
+
 	public void defineLowerPanel() {
-
-		JPanel featurePanel = new JPanel(new BorderLayout());
-
+		JPanel contentPanel = new JPanel(new BorderLayout());
 		addBookBtn = new JButton("Add Book");
 		addBookBtn.addActionListener(new ActionListener() {
 			@Override
@@ -103,14 +92,25 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 				Util.centerFrameOnDesktop(AddBookForm.INSTANCE);
 			}
 		});
-		featurePanel.add(addBookBtn, BorderLayout.EAST);
-
-		JButton backBtn = new JButton("<- Back to Main");
+		contentPanel.add(addBookBtn, BorderLayout.EAST);
+		addCopyBtn = new JButton("Add Copy");
+		addCopyBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LibrarySystem.hideAllWindows();
+				AddBookCopyForm.INSTANCE.init();
+				AddBookCopyForm.INSTANCE.pack();
+				AddBookCopyForm.INSTANCE.setVisible(true);
+				Util.centerFrameOnDesktop(AddBookCopyForm.INSTANCE);
+			}
+		});
+		contentPanel.add(addCopyBtn, BorderLayout.CENTER);
+		JButton backBtn = new JButton("<== Back to Main");
 		backBtn.addActionListener(new BackToMainListener());
-		featurePanel.add(backBtn, BorderLayout.WEST);
+		contentPanel.add(backBtn, BorderLayout.WEST);
 		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new BorderLayout());;
-		lowerPanel.add(featurePanel, BorderLayout.CENTER);
+		lowerPanel.add(contentPanel, BorderLayout.CENTER);
 	}
 
 
@@ -132,53 +132,29 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	public void updateAvailableCountRecord(Book book) {
-		createTable();
 		for(int i = 0; i < model.getRowCount(); i++) {
 			String isbn = model.getValueAt(i, 0).toString();
 			if(book.getIsbn().equals(isbn)) {
-				model.setValueAt(book.availableCount(), i, 3);
+				model.setValueAt(book.availableCount() + "/" + book.totalCopies(), i, 3);
 				reloadUI();
 				return;
 			}
 		}
 	}
-	public void createTable() {
-		List<Book> data = getAllBook();
-		String[] columnNames = new String[]{"ISBN","Title","Max Checkout Length", "Available Count"};
-
-		String[][] dataTable = new String[data.size()][5];
-
-		for(int i = 0; i< data.size();i++){
-			Book lm = data.get(i);
-
-			dataTable[i] = new String[]{lm.getIsbn(), lm.getTitle(), String.valueOf(lm.getMaxCheckoutLength()), String.valueOf(lm.availableCount())};
-
-		}
-		model = new DefaultTableModel(dataTable, columnNames){
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		table = new JTable(model);
-	}
 
 	public void refreshTable(Book newBook){
-		createTable();
-		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount())});
+		model.addRow(new String[]{newBook.getIsbn(), newBook.getTitle(), String.valueOf(newBook.getMaxCheckoutLength()), String.valueOf(newBook.availableCount()) + "/" + String.valueOf(newBook.totalCopies()), newBook.getAuthorName()});
 		reloadUI();
 	}
 
 	@Override
 	public boolean isInitialized() {
-		// TODO Auto-generated method stub
 		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-		
 	}
 
 	private void reloadUI() {
