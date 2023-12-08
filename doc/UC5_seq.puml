@@ -1,0 +1,18 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. Send new book info
+activate UI
+UI -> Add_Book_Handler: 2. Forward book info
+activate Add_Book_Handler
+Add_Book_Handler -> Add_Book_Handler: 3. Validate new book info
+activate Add_Book_Handler
+deactivate Add_Book_Handler
+Add_Book_Handler -> System_Controller: 4. Add new book to db
+activate System_Controller
+deactivate System_Controller
+Add_Book_Handler -> Add_Book_Handler: 5. Set according state
+activate Add_Book_Handler
+deactivate Add_Book_Handler
+deactivate Add_Book_Handler
+@enduml

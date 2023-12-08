@@ -1,0 +1,20 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. Print record of member
+activate UI
+UI -> Record_Handler: 2. Forward member info
+activate Record_Handler
+Record_Handler -> System_Controller: 3. Get member's record
+activate System_Controller
+System_Controller -> System_Controller: 4. Read member's record from db
+activate System_Controller
+deactivate System_Controller
+deactivate System_Controller
+Record_Handler -> Record_Handler: 5. Set according state
+activate Record_Handler
+deactivate Record_Handler
+deactivate Record_Handler
+UI -> UI: 6. Switch to new UI
+activate UI
+@enduml
