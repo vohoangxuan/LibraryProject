@@ -9,9 +9,11 @@ import javax.swing.JFrame;
 import librarysystem.Util;
 
 
+
 public class Main {
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		/*
 		 * EventQueue.invokeLater(() -> { LoginForm.INSTANCE.init();
 		 * Util.centerFrameOnDesktop(LoginForm.INSTANCE);
@@ -34,6 +36,18 @@ public class Main {
 		  
 		  
 		 
+=======
+		EventQueue.invokeLater(() ->
+		{
+			LibrarySystem.INSTANCE.setTitle("Banned Animals Library Application");
+			LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			LibrarySystem.INSTANCE.init();
+			centerFrameOnDesktop(LibrarySystem.INSTANCE);
+			LibrarySystem.INSTANCE.setVisible(true);
+		});
+
+>>>>>>> a75d8fd82884b4b189c06317253bdfc6cbb99e27
 	}
 
 	public static void centerFrameOnDesktop(Component f) {

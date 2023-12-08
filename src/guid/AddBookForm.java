@@ -3,6 +3,9 @@ package guid;
 import business.*;
 import librarysystem.LibWindow;
 import librarysystem.Util;
+import rulesets.RuleException;
+import rulesets.RuleSet;
+import rulesets.RuleSetFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -74,6 +77,7 @@ public class AddBookForm extends JFrame implements LibWindow {
         isInitialized(true);
         add(mainPanel);
         getContentPane().add(mainPanel);
+        pack();
     }
 
     @Override
@@ -179,6 +183,12 @@ public class AddBookForm extends JFrame implements LibWindow {
         addBookBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    RuleSet rules = RuleSetFactory.getRuleSet(AddBookForm.this);
+                    rules.applyRules(AddBookForm.this);
+                } catch(RuleException err) {
+                    JOptionPane.showMessageDialog(mainPanel,err.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+                }
                 List<Author> newAuthors = new ArrayList<>();
                 List<Author> authors = bookI.getAllAuthor();
                 String[] selectedAuthorNames = authorText.getText().split(", ");
@@ -271,5 +281,25 @@ public class AddBookForm extends JFrame implements LibWindow {
         authorText.setText("");
         book = new Book("","",0,new ArrayList<>());
         repaint();
+    }
+
+    public String getISBN() {
+        return isbnText.getText().trim();
+    }
+
+    public String getTitle() {
+        return titleText.getText().trim();
+    }
+
+    public String getMaxCheckOut() {
+        return maxCheckOutText.getText().trim();
+    }
+
+    public String getNumberOfCopies() {
+        return numberOfCopiesText.getText().trim();
+    }
+
+    public String getAuthorName() {
+        return authorText.getText().trim();
     }
 }

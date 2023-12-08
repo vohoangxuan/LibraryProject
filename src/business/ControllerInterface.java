@@ -1,6 +1,7 @@
 package business;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 import dataaccess.User;
@@ -23,4 +24,5 @@ public interface ControllerInterface {
 	public LibraryMember searchMember(String memberId) throws SearchMemberException;
 	public void logout();
 	public List<LibraryMember> getAllMembers();
+	public HashMap<BookCopy, LibraryMember> findOverdueEntries(String Isbn, LocalDate checkDate) throws BookException;
 }

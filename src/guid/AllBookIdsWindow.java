@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 
@@ -20,7 +21,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private static String title = "All Book IDs";
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
 	ControllerInterface ci = new SystemController();
-	private JTable table;
 	private JPanel mainPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
@@ -30,7 +30,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private JScrollPane scrollPane;
 	private boolean isInitialized = false;
 	private DefaultTableModel model = new DefaultTableModel();
-
+	private JTable table = new JTable();
 	private AllBookIdsWindow() {}   
 
 	public void init() {
@@ -76,30 +76,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 
 	public void defineLowerPanel() {
 		JPanel contentPanel = new JPanel(new BorderLayout());
-		addBookBtn = new JButton("Add Book");
-		addBookBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LibrarySystem.hideAllWindows();
-				AddBookForm.INSTANCE.init();
-				AddBookForm.INSTANCE.pack();
-				AddBookForm.INSTANCE.setVisible(true);
-				Util.centerFrameOnDesktop(AddBookForm.INSTANCE);
-			}
-		});
-		contentPanel.add(addBookBtn, BorderLayout.EAST);
-		addCopyBtn = new JButton("Add Copy");
-		addCopyBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LibrarySystem.hideAllWindows();
-				AddBookCopyForm.INSTANCE.init();
-				AddBookCopyForm.INSTANCE.pack();
-				AddBookCopyForm.INSTANCE.setVisible(true);
-				Util.centerFrameOnDesktop(AddBookCopyForm.INSTANCE);
-			}
-		});
-		contentPanel.add(addCopyBtn, BorderLayout.CENTER);
 		JButton backBtn = new JButton("<== Back to Main");
 		backBtn.addActionListener(new BackToMainListener());
 		contentPanel.add(backBtn, BorderLayout.WEST);

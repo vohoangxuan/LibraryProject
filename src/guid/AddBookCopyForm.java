@@ -59,6 +59,7 @@ public class AddBookCopyForm extends JFrame implements LibWindow {
         setTitle(title);
         isInitialized(true);
         getContentPane().add(mainPanel);
+        pack();
     }
 
     @Override
