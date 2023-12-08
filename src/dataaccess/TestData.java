@@ -78,6 +78,7 @@ public class TestData {
 			add(new Address("1435 Channing Ave", "Palo Alto", "CA", "94301"));
 			add(new Address("42 Dogwood Dr.", "Fairfield", "IA", "52556"));
 			add(new Address("501 Central", "Mountain View", "CA", "94707"));
+			add(new Address("", "", "", ""));
 		}
 	};
 	@SuppressWarnings("serial")
@@ -88,6 +89,7 @@ public class TestData {
 			add(new Author("Nirmal", "Pugh", "641-919-3223", addresses.get(1), "Thinker of thoughts."));
 			add(new Author("Andrew", "Cleveland", "976-445-2232", addresses.get(2), "Author of childrens' books."));
 			add(new Author("Sarah", "Connor", "123-422-2663", addresses.get(3), "Known for her clever style."));
+			add(new Author("Anonymous", "", "", addresses.get(7), ""));
 		}
 	};
 	
