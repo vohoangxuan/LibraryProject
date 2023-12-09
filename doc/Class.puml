@@ -58,5 +58,5 @@ LibraryMember "1"-d->"1" CheckoutRecord: has
 CheckoutRecordEntry "0..*"-down--*"1" CheckoutRecord
 CheckoutRecordEntry "1"-->"1" BookCopy
 Book "1..*"--o "1..*" Author
-BookCopy "0..*"--"1" Book
+BookCopy "1..*"--"1" Book
 @enduml

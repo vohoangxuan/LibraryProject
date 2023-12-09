@@ -40,7 +40,7 @@ public class CheckoutForm extends JFrame implements LibWindow {
     private JLabel checkout = new JLabel("Checkout date");
     private JTextField checkoutDate = new JFormattedTextField(df);
 
-    private JLabel dueDate = new JLabel("Due after (days)");
+    private JLabel dueDate = new JLabel("Overdue after (days)");
     private JTextField dueDateText = new JTextField("7");
 
     private JPanel middlePanel = new JPanel(new FlowLayout());

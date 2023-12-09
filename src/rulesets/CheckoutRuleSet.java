@@ -33,11 +33,15 @@ public class CheckoutRuleSet implements RuleSet {
 
 	private void numericDueDate() throws RuleException {
 		String val = checkoutForm.getDueDateText().trim();
+		int parseVal;
 		try {
-			Integer.parseInt(val);
+			parseVal = Integer.parseInt(val);
 			//val is integer
 		} catch(NumberFormatException e) {
 			throw new RuleException("Due date must be numeric");
+		}
+		if (parseVal < 1){
+			throw new RuleException("Due date must be greater than 0");
 		}
 	}
 }
