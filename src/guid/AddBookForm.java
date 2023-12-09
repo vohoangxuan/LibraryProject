@@ -11,10 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -123,7 +120,7 @@ public class AddBookForm extends JFrame implements LibWindow {
             public void keyPressed(KeyEvent e) {
                 String value = numberOfCopiesText.getText();
                 int l = value.length();
-                if(e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
+                if(e.getKeyChar() >= '0' && e.getKeyChar() <= '9' || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     maxCheckOutText.setEditable(true);
                 } else {
                     maxCheckOutText.setEditable(false);
@@ -136,7 +133,7 @@ public class AddBookForm extends JFrame implements LibWindow {
             public void keyPressed(KeyEvent e) {
                 String value = numberOfCopiesText.getText();
                 int l = value.length();
-                if(e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
+                if((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     numberOfCopiesText.setEditable(true);
                 } else {
                     numberOfCopiesText.setEditable(false);
