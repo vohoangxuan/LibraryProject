@@ -161,11 +161,11 @@ public class CheckoutForm extends JFrame implements LibWindow {
                 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
                 LocalDate ld = LocalDate.parse(checkoutDate.getText(), formatter);
-                int due = Integer.parseInt(dueDateText.getText());
 
                 try{
                     RuleSet rules = RuleSetFactory.getRuleSet(CheckoutForm.this);
                     rules.applyRules(CheckoutForm.this);
+                    int due = Integer.parseInt(dueDateText.getText());
                     cf.addCheckoutEntry(memId, isbnNumb, ld, due);
 
                     Book book = cf.getBookById(isbnNumb);
