@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -20,7 +19,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import business.Address;
@@ -74,24 +72,6 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	public void init() {
 		if(isInitialized())
     		return;
-		try {
-////		firstName.setText(libraryMember.getFirstName());
-////		lastName.setText(libraryMember.getLastName());
-////		phoneNumber.setText(libraryMember.getTelephone()); 
-//		Address addr = libraryMember.getAddress();
-//		if(addr != null) {
-//			street.setText(addr.getStreet());
-//			city.setText(addr.getCity());
-//			zip.setText(addr.getZip());
-//			state.setText(addr.getState());
-//		}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		
 		mainPanel = new JPanel();
 		
     	defineUpperHalf();
@@ -183,7 +163,9 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		
 		defineLowerPanelRow1();
 		lowerPanelRow2 = new JPanel();
-		
+		JButton printButton = new JButton("Print");
+		addPrintButtonListener(printButton);
+		lowerPanelRow2.add(printButton);
 		lowerPanel.add(scrollPane, BorderLayout.NORTH);//lowerPanelRow1
 		lowerPanel.add(lowerPanelRow2, BorderLayout.CENTER);
 		/*
@@ -197,14 +179,6 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	//table
 	public void defineLowerPanelRow1(){
 		createTableAndTablePane();
-		/*
-		GuiControl.createCustomColumns(table, 
-		                               800,
-		                               new float []{0.4f, 0.2f, 0.2f, 0.2f},
-		                               DEFAULT_COLUMN_HEADERS);
-		                   		
-		lowerPanelRow1 = GuiControl.createStandardTablePanePanel(table,tablePane);
-				*/
 	}
 	
 	// --------------------------------------------------------------------
@@ -294,20 +268,7 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 
 			setValues(model);
 			table.updateUI();
-			printEntries();
 			
-			/*
-			String fname = firstName.getText();
-			String lname = lastName.getText();
-			String tel = phoneNumber.getText();
-			address = new Address(street.getText(), city.getText(), state.getText(), zip.getText());
-			libraryMember = new LibraryMember(memberId, fname, lname, tel, address);
-			//validate
-			RuleSet ruleSet = RuleSetFactory.getRuleSet(this);
-			ruleSet.applyRules(this);
-			
-			Util.showMessage(this, "Member added!");
-			*/
 		} catch (SearchMemberException e) {
 			Util.showMessage(this, e.getMessage());
 			resetForm();
@@ -355,18 +316,7 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		JPanel leftTextPanel12 = new JPanel();
 		leftTextPanel12.setLayout(new BorderLayout());
 		
-		//Member ID
-		/*
-		JPanel panelMemIDLbl = new JPanel();
-		JLabel label4 = new JLabel("Member ID");
-		panelMemIDLbl.add(label4);
 
-		memberID = new JTextField();
-        memberID.setColumns(10);
-        JPanel panelMemFld = new JPanel();
-        panelMemFld.setSize(500, 50);
-        panelMemFld.add(memberID);
-        */
         //First Name
 		JPanel panelFnLbl = new JPanel();
 		JLabel label6 = new JLabel("First Name");
@@ -388,10 +338,7 @@ public class SearchMemberForm extends JFrame implements LibWindow{
         lastName.setColumns(10);
         JPanel panelLnFld = new JPanel(); 
         panelLnFld.add(lastName);
-        
 
-//        leftTextPanel11.add(panelMemIDLbl, BorderLayout.NORTH);
-//        leftTextPanel11.add(panelMemFld, BorderLayout.CENTER);
 
 		leftTextPanel12.add(panelFnLbl, BorderLayout.NORTH);
         leftTextPanel12.add(panelFnFld, BorderLayout.CENTER);
@@ -521,16 +468,16 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		rightTextPanel.add(rightTextPanel1);
 		rightTextPanel.add(rightTextPanel2);
 	}
-
-
 	
 	private void addSearchMemberButtonListener(JButton butn) {
 		butn.addActionListener(evt -> searchMember()
 		);
 	}
-	
 
-	
+	private void addPrintButtonListener(JButton butn) {
+		butn.addActionListener(evt -> printEntries()
+				);
+	}
 	public void resetForm() {
 		memberID.setText("");
 		firstName.setText("");
@@ -569,6 +516,11 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	}
 
 	private void printEntries() {
+		if(libraryMember == null || libraryMember.getRecord() == null
+				||libraryMember.getRecord().getRecord() == null) {
+			Util.showMessage(this, "There is no data to print");
+			return;
+		}
 		System.out.printf("---------------------------------------------------------------------------------------------%n");
 		System.out.printf("");
 		System.out.printf("%-40s %n", " Member ID: " + libraryMember.getMemberId());

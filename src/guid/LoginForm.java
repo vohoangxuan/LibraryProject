@@ -5,8 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -23,7 +21,6 @@ import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
 import dataaccess.User;
-import guid.AllMembersForm.CloseListener;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 import rulesets.RuleException;
@@ -52,7 +49,6 @@ public class LoginForm extends JInternalFrame implements LibWindow {
 	private JTextField password;
 	private JLabel label;
 	private JButton loginButton;
-	private JButton logoutButton;
 	
 	
 	ControllerInterface ci = new SystemController();
@@ -201,16 +197,10 @@ public class LoginForm extends JInternalFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> checkUsernamePassword()
-//    		{
-//    			JOptionPane.showMessageDialog(this,"Successful Login");
-//    				
-//    		}
     		);
     	}
 	
     	private void checkUsernamePassword() {
-    		
-    		
     		try {
     			RuleSet ruleSet = RuleSetFactory.getRuleSet(LoginForm.this);
     			this.loginUser = new User(username.getText(), password.getText(), null);
@@ -229,17 +219,6 @@ public class LoginForm extends JInternalFrame implements LibWindow {
  	            LibrarySystem.INSTANCE.repaint();
  	            LibrarySystem.INSTANCE.setVisible(true);
  	            
-        		/*
-        		EventQueue.invokeLater(() -> 
-    	        {
-    	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
-    	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	            
-    	            LibrarySystem.INSTANCE.init();
-    	            Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
-    	            LibrarySystem.INSTANCE.setVisible(true);
-    	        });
-    	        */   			
     		} catch (RuleException e) {
     			Util.showMessage(this, e.getMessage());
     		} catch (LoginException e) {
