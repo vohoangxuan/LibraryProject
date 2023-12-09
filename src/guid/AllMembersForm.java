@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 
@@ -142,25 +141,12 @@ public class AllMembersForm extends JFrame implements LibWindow{
 		
 		lowerPanel.add(scrollPane, BorderLayout.NORTH);//lowerPanelRow1
 		lowerPanel.add(lowerPanelRow2, BorderLayout.CENTER);
-		/*
-		addNewMember = new JButton("Save");
-		addAddMemberButtonListener(addNewMember);
-		lowerPanel.add(addNewMember);
-		*/
-		
+	
 	}
 
 	//table
 	public void defineLowerPanelRow1(){
 		createTableAndTablePane();
-		/*
-		GuiControl.createCustomColumns(table, 
-		                               800,
-		                               new float []{0.4f, 0.2f, 0.2f, 0.2f},
-		                               DEFAULT_COLUMN_HEADERS);
-		                   		
-		lowerPanelRow1 = GuiControl.createStandardTablePanePanel(table,tablePane);
-				*/
 	}
 	
 	// --------------------------------------------------------------------

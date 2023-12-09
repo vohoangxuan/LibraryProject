@@ -66,6 +66,8 @@ public class SearchOverDueBookForm extends JFrame implements LibWindow{
 	private LibraryMember libraryMember;
 	
 	public void init() {
+		if(isInitialized)
+			return;
 		mainPanel = new JPanel();
 		
     	defineUpperHalf();
@@ -300,6 +302,9 @@ public class SearchOverDueBookForm extends JFrame implements LibWindow{
 	class BackToMainListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
+			resetForm();
+			SearchMemberForm.INSTANCE.dispose();
+			model.removeAll();
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
     		

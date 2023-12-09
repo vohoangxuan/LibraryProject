@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -21,6 +23,7 @@ import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
 import dataaccess.User;
+import guid.AllMembersForm.CloseListener;
 import librarysystem.LibWindow;
 import librarysystem.Util;
 import rulesets.RuleException;
@@ -38,7 +41,6 @@ public class LoginForm extends JInternalFrame implements LibWindow {
 	private JPanel upperHalf;
 	private JPanel middleHalf;
 	private JPanel lowerHalf;
-	private JPanel container;
 	
 	private JPanel topPanel;
 	private JPanel middlePanel;
@@ -147,7 +149,10 @@ public class LoginForm extends JInternalFrame implements LibWindow {
     		lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     		loginButton = new JButton("Submit");
     		addLoginButtonListener(loginButton);
+			JButton closeButton = new JButton("Close");
+			addCloseButtonListener(closeButton);
     		lowerPanel.add(loginButton);
+    		lowerPanel.add(closeButton);
     	}
 
     	private void defineLeftTextPanel() {
@@ -246,6 +251,15 @@ public class LoginForm extends JInternalFrame implements LibWindow {
     		
     	}        
     	
+       	
+    	private void addCloseButtonListener(JButton butn) {
+    		butn.addActionListener(evt -> 
+    		{
+    			LibrarySystem.INSTANCE.dispose();
+    			LibrarySystem.INSTANCE.setVisible(false);
+    		}
+    				);
+    	}
     	
     	private void resetForm() {
     		username.setText("");
