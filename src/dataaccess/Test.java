@@ -9,9 +9,9 @@ class Test
 {
     public static void main(String[] args)
     {   
-        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\USERS";
+        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\MEMBERS";
  
-        HashMap<String, User> object1 = null;
+        HashMap<String, LibraryMember> object1 = null;
  
         // Deserialization
         try
@@ -21,7 +21,7 @@ class Test
             ObjectInputStream in = new ObjectInputStream(file);
              
             // Method for deserialization of object
-            object1 = (HashMap<String, User>)in.readObject();
+            object1 = (HashMap<String, LibraryMember>)in.readObject();
              
             in.close();
             file.close();
