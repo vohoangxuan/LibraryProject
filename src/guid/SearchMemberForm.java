@@ -559,7 +559,8 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
-    		
+			resetForm();
+			model.removeAll();
 		}
 	}
 

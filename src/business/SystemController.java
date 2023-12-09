@@ -207,7 +207,12 @@ public class SystemController implements ControllerInterface {
 					BookCopy copy = entries.get(i).getBookCopy();
 					if(bookCopyList.contains(copy)) {
 						if (!bookCopyLibraryMemberMap.containsKey(copy)) {
-							bookCopyLibraryMemberMap.put(copy,member);
+							LibraryMember newMem = new LibraryMember(member.getMemberId()
+									, member.getFirstName()
+									, member.getLastName()
+									, member.getTelephone()
+									, member.getAddress());
+							bookCopyLibraryMemberMap.put(copy,newMem);
 						} 
 						bookCopyLibraryMemberMap.get(copy).getRecord().getRecord().add(entries.get(i));
 					}
