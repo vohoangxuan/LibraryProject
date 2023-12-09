@@ -1,0 +1,29 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. sendBookInfo
+activate UI
+UI -> AddBookForm: 2. forwardBookInfo
+activate AddBookForm
+AddBookForm -> SystemController: 3. getAuthor
+activate SystemController
+deactivate SystemController
+deactivate AddBookForm
+UI -> UI: 4. showAuthorList
+activate UI
+deactivate UI
+' deactivate UI
+Administrator -> UI: 5. sendAuthorInfo
+UI -> AddBookForm: 6. forwardAuthorInfo
+activate AddBookForm
+AddBookForm -> SystemController: 7. sendBookInfo
+activate SystemController
+SystemController -> SystemController: 8. saveBookInfo
+activate SystemController
+deactivate SystemController
+deactivate SystemController
+AddBookForm -> AddBookForm: 9. updateAccordingState
+activate AddBookForm
+deactivate AddBookForm
+deactivate AddBookForm
+@enduml

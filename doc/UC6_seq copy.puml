@@ -1,0 +1,20 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. printMemberRecord
+activate UI
+UI -> CheckoutRecordForm: 2. forwardMemberInfo
+activate CheckoutRecordForm
+CheckoutRecordForm -> SystemController: 3. getMemberRecord
+activate SystemController
+SystemController -> SystemController: 4. readMemberRecord
+activate SystemController
+deactivate SystemController
+deactivate SystemController
+CheckoutRecordForm -> CheckoutRecordForm: 5. updateAccordingState
+activate CheckoutRecordForm
+deactivate CheckoutRecordForm
+deactivate CheckoutRecordForm
+UI -> UI: 6. updateUiInfo
+activate UI
+@enduml

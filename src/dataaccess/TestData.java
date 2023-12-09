@@ -29,6 +29,7 @@ public class TestData {
 		td.bookData();
 		td.libraryMemberData();
 		td.userData();
+		td.authorData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
@@ -84,7 +85,7 @@ public class TestData {
 	@SuppressWarnings("serial")
 	public List<Author> allAuthors = new ArrayList<Author>() {
 		{
-			add(new Author("Joe", "Thomas", "641-445-2123", addresses.get(0), "A happy man is he."));
+			add(new Author("Yasuo", "Thomas", "641-445-2123", addresses.get(0), "A happy man is he."));
 			add(new Author("Sandra", "Thomas", "641-445-2123", addresses.get(0), "A happy wife is she."));
 			add(new Author("Nirmal", "Pugh", "641-919-3223", addresses.get(1), "Thinker of thoughts."));
 			add(new Author("Andrew", "Cleveland", "976-445-2232", addresses.get(2), "Author of childrens' books."));

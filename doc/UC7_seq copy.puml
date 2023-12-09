@@ -1,0 +1,26 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. viewISBNOverdue
+activate UI
+UI -> BookForm: 2. forwardISBN
+activate BookForm
+BookForm -> SystemController: 3. getOverdueData
+activate SystemController
+SystemController -> SystemController: 4. readMemberRecord
+activate SystemController
+deactivate SystemController
+SystemController -> SystemController: 5. readBookData
+activate SystemController
+deactivate SystemController
+SystemController -> SystemController: 6. *getOverdueCopy
+activate SystemController
+deactivate SystemController
+deactivate SystemController
+BookForm -> BookForm: 7. updateAccordingState
+activate BookForm
+deactivate BookForm
+deactivate BookForm
+UI -> UI: 8. showOverdueData
+activate UI
+@enduml

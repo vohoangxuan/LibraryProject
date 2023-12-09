@@ -1,0 +1,29 @@
+@startuml
+participant Librarian
+
+Librarian -> UI: 1. sendMemberIdAndIsbn
+activate UI
+UI -> CheckoutBookForm: 2. forwardMemberIdAndIsbn
+activate CheckoutBookForm
+CheckoutBookForm -> CheckoutBookForm: 3.validateMemberId
+activate CheckoutBookForm
+deactivate CheckoutBookForm
+CheckoutBookForm -> SystemController: 4. checkBookIsAvailable
+' activate CheckoutBookForm
+' deactivate CheckoutBookForm
+activate SystemController
+deactivate SystemController
+CheckoutBookForm -> SystemController: 5. newCheckoutEntry
+activate SystemController
+SystemController -> SystemController: 6. saveMemberData
+activate SystemController
+deactivate SystemController
+SystemController -> SystemController: 7. saveBookData
+activate SystemController
+deactivate SystemController
+deactivate SystemController
+CheckoutBookForm -> CheckoutBookForm: 8. updateAccordingState
+activate CheckoutBookForm
+deactivate CheckoutBookForm
+deactivate CheckoutBookForm
+@enduml

@@ -2,6 +2,7 @@ package dataaccess;
 import java.io.*;
 import java.util.HashMap;
 
+import business.Author;
 import business.Book;
 import business.LibraryMember;
 
@@ -9,9 +10,9 @@ class Test
 {
     public static void main(String[] args)
     {   
-        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\MEMBERS";
+        String filename = "C:\\quang\\project\\MPP_Project\\LibraryProject\\src\\dataaccess\\storage\\AUTHORS";
  
-        HashMap<String, LibraryMember> object1 = null;
+        HashMap<String, Author> object1 = null;
  
         // Deserialization
         try
@@ -21,7 +22,7 @@ class Test
             ObjectInputStream in = new ObjectInputStream(file);
              
             // Method for deserialization of object
-            object1 = (HashMap<String, LibraryMember>)in.readObject();
+            object1 = (HashMap<String, Author>)in.readObject();
              
             in.close();
             file.close();

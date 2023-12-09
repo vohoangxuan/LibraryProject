@@ -1,0 +1,20 @@
+@startuml
+participant User
+
+User -> UI: 1. sendLoginInfo
+activate UI
+UI -> LoginForm: 2. forwardLoginInfo
+activate LoginForm
+LoginForm -> SystemController: 3. checkUsernamePassword
+activate SystemController
+SystemController -> SystemController: 4. setLoginStatus
+activate SystemController
+deactivate SystemController
+deactivate SystemController
+LoginForm -> LoginForm: 5. setAccordingState
+activate LoginForm
+deactivate LoginForm
+deactivate LoginForm
+UI -> UI: 6. switchToNextScreen
+activate UI
+@enduml

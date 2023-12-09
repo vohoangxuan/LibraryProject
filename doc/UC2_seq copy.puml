@@ -1,0 +1,18 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. sendNewMember
+activate UI
+UI -> AddMemberForm: 2. forwardMemberInfo
+activate AddMemberForm
+AddMemberForm -> AddMemberForm: 3. validateMemberInfo
+activate AddMemberForm
+deactivate AddMemberForm
+AddMemberForm -> SystemController: 4. addNewMember
+activate SystemController
+deactivate SystemController
+AddMemberForm -> AddMemberForm: 5. updateAccordingState
+activate AddMemberForm
+deactivate AddMemberForm
+deactivate AddMemberForm
+@enduml

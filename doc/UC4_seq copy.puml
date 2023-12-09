@@ -1,0 +1,21 @@
+@startuml
+participant Administrator
+
+Administrator -> UI: 1. sendISBN
+activate UI
+UI -> AddCopyForm: 2. validateISBN
+activate AddCopyForm
+AddCopyForm -> SystemController: 3. createBookCopy
+activate SystemController
+' deactivate AddCopyForm
+SystemController -> SystemController: 4. saveBookData
+activate SystemController
+' SystemController -> SystemController: 5. Update according db
+' activate SystemController
+deactivate SystemController
+deactivate SystemController
+AddCopyForm -> AddCopyForm: 5. updateAccordingState
+activate AddCopyForm
+deactivate AddCopyForm
+deactivate AddCopyForm
+@enduml
