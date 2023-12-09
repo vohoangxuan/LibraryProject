@@ -202,6 +202,7 @@ public class AddBookForm extends JFrame implements LibWindow {
                     }
                 }
 
+                book = new Book(isbnText.getText(), titleText.getText(), Integer.parseInt(maxCheckOutText.getText().trim()), newAuthors);
                 int numberOfCopies = Integer.parseInt(numberOfCopiesText.getText().trim());
                 if(numberOfCopies > 1) {
                     for(int i = 1; i < numberOfCopies; i++) {
@@ -210,7 +211,7 @@ public class AddBookForm extends JFrame implements LibWindow {
                 }
 
                 try {
-                	book = new Book(isbnText.getText(), titleText.getText(), Integer.parseInt(maxCheckOutText.getText().trim()), newAuthors);
+                	
                     Book newBook = bookI.addBook(isbnText.getText(), titleText.getText(), Integer.parseInt(maxCheckOutText.getText().trim()), newAuthors, List.of(book.getCopies()));
                     AllBookIdsWindow.INSTANCE.refreshTable(newBook);
                     clearTextFields();
