@@ -8,6 +8,7 @@ import java.awt.*;
 /**
  * Rules:
  * 1. Fields cannot be empty
+ * 2. Copy must be > 0
  */
 public class AddBookRuleSet implements RuleSet {
     private AddBookForm addBookForm;
@@ -15,6 +16,7 @@ public class AddBookRuleSet implements RuleSet {
     public void applyRules(Component ob) throws RuleException {
         addBookForm = (AddBookForm) ob;
         nonemptyRule();
+        copyRule();
     }
 
     private void nonemptyRule() throws RuleException {
@@ -25,6 +27,12 @@ public class AddBookRuleSet implements RuleSet {
         addBookForm.getAuthorName().isEmpty()
         ) {
             throw new RuleException("Fields cannot be empty");
+        }
+    }
+
+    private void copyRule() throws RuleException {
+        if(Integer.parseInt(addBookForm.getNumberOfCopies().trim()) < 1) {
+            throw new RuleException("Copy must be at least 1");
         }
     }
 
