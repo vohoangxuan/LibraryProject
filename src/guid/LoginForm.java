@@ -161,8 +161,8 @@ public class LoginForm extends JInternalFrame implements LibWindow {
     		username = new JTextField(10);
     		label = new JLabel("Username");
     		label.setFont(Util.makeSmallFont(label.getFont()));
-    		topText.add(username);
-    		bottomText.add(label);
+    		topText.add(label);
+    		bottomText.add(username);
     		
     		leftTextPanel = new JPanel();
     		leftTextPanel.setLayout(new BorderLayout());
@@ -179,8 +179,8 @@ public class LoginForm extends JInternalFrame implements LibWindow {
     		password = new JPasswordField(10);
     		label = new JLabel("Password");
     		label.setFont(Util.makeSmallFont(label.getFont()));
-    		topText.add(password);
-    		bottomText.add(label);
+    		topText.add(label);
+    		bottomText.add(password);
     		
     		rightTextPanel = new JPanel();
     		rightTextPanel.setLayout(new BorderLayout());

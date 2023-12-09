@@ -16,12 +16,16 @@ import librarysystem.Util;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ControllerInterface ci = new SystemController();
 	public final static LibrarySystem INSTANCE =new LibrarySystem();
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut, addBook, addBookCopy, searchOverDueEntries, searchMember;
+    JMenuItem allBookIds, allMemberIds, addMember, checkoutBook, logOut, addBook, addBookCopy, searchOverDueEntries, searchMember, exit;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -298,7 +302,15 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			SearchMemberForm.INSTANCE.setVisible(true);
 		}
 	}
-	
+
+	class ExitListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ci.logout();
+			LibrarySystem.INSTANCE.dispose();
+			LibrarySystem.INSTANCE.setVisible(false);
+		}		
+	}	
 	@Override
 	public boolean isInitialized() {
 		return isInitialized;
