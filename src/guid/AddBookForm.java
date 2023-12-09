@@ -64,7 +64,7 @@ public class AddBookForm extends JFrame implements LibWindow {
             return;
         }
 
-        book = new Book("", "", 0, new ArrayList<Author>());
+//        book = new Book("", "", 0, new ArrayList<Author>());
         setSize(600, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         defineLeftPanel();
@@ -188,6 +188,7 @@ public class AddBookForm extends JFrame implements LibWindow {
                     rules.applyRules(AddBookForm.this);
                 } catch(RuleException err) {
                     JOptionPane.showMessageDialog(mainPanel,err.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 List<Author> newAuthors = new ArrayList<>();
                 List<Author> authors = bookI.getAllAuthor();
@@ -209,6 +210,7 @@ public class AddBookForm extends JFrame implements LibWindow {
                 }
 
                 try {
+                	book = new Book(isbnText.getText(), titleText.getText(), Integer.parseInt(maxCheckOutText.getText().trim()), newAuthors);
                     Book newBook = bookI.addBook(isbnText.getText(), titleText.getText(), Integer.parseInt(maxCheckOutText.getText().trim()), newAuthors, List.of(book.getCopies()));
                     AllBookIdsWindow.INSTANCE.refreshTable(newBook);
                     clearTextFields();
