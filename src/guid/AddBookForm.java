@@ -164,8 +164,8 @@ public class AddBookForm extends JFrame implements LibWindow {
     public void defineMiddleTableDataPanel() {
         dataTablePanel = new JPanel(new BorderLayout());
 
-        JPanel featurePanel = new JPanel();
-        featurePanel.setLayout(new FlowLayout());
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new FlowLayout());
 
         JButton backButton = new JButton("<== Back to Main");
         backButton.addActionListener(evt -> {
@@ -176,10 +176,10 @@ public class AddBookForm extends JFrame implements LibWindow {
             Util.centerFrameOnDesktop(LibrarySystem.INSTANCE);
             this.dispose();
         });
-        featurePanel.add(backButton);
+        contentPanel.add(backButton);
 
         addBookBtn = new JButton("Save");
-        featurePanel.add(addBookBtn);
+        contentPanel.add(addBookBtn);
         addBookBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -220,8 +220,8 @@ public class AddBookForm extends JFrame implements LibWindow {
                 }
             }
         });
-        JButton goButton = new JButton("See List Book IDs");
-        goButton.addActionListener(evt -> {
+        JButton goBtn = new JButton("See List Book IDs");
+        goBtn.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
             AllBookIdsWindow.INSTANCE.init();
             AllBookIdsWindow.INSTANCE.pack();
@@ -229,8 +229,8 @@ public class AddBookForm extends JFrame implements LibWindow {
             Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
             this.dispose();
         });
-        featurePanel.add(goButton);
-        dataTablePanel.add(featurePanel, BorderLayout.SOUTH);
+        contentPanel.add(goBtn);
+        dataTablePanel.add(contentPanel, BorderLayout.SOUTH);
     }
 
 

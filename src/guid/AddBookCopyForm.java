@@ -115,6 +115,16 @@ public class AddBookCopyForm extends JFrame implements LibWindow {
             }
         });
         bottomPanel.add(addBtn);
+        JButton goBtn = new JButton("See List Book IDs");
+        goBtn.addActionListener(evt -> {
+            LibrarySystem.hideAllWindows();
+            AllBookIdsWindow.INSTANCE.init();
+            AllBookIdsWindow.INSTANCE.pack();
+            AllBookIdsWindow.INSTANCE.setVisible(true);
+            Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
+            this.dispose();
+        });
+        bottomPanel.add(goBtn);
         middleWrapperPanel.add(bottomPanel, BorderLayout.CENTER);
     }
 
