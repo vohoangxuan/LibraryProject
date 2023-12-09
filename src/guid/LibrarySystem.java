@@ -120,29 +120,28 @@ public class LibrarySystem extends JFrame implements LibWindow {
     		
     		switch (SystemController.currentAuth) {
     		case LIBRARIAN:
-				options.add(allBookIds);
     			options.add(checkoutBook);
+				options.add(allBookIds);
     			options.add(searchMember);
     			options.add(searchOverDueEntries);
     			break;
     		case ADMIN:
+    			options.add(addBook);
+    			options.add(addBookCopy);
 				options.add(allMemberIds);
 				options.add(addMember);
     			options.add(allBookIds);
-				options.add(addBook);
 				options.add(searchMember);
-				options.add(addBookCopy);
     			break;
     		case BOTH:
-				options.add(allMemberIds);
     			options.add(addMember);
-    			options.add(allBookIds);
-				options.add(addBook);
+    			options.add(addBook);
 				options.add(addBookCopy);
 				options.add(checkoutBook);
+				options.add(allMemberIds);
+    			options.add(allBookIds);
 				options.add(searchMember);
     			options.add(searchOverDueEntries);
-
     			break;
     		default:
     		}

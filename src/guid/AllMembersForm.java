@@ -192,7 +192,7 @@ public class AllMembersForm extends JFrame implements LibWindow{
 			if(m == null) 
 				continue;
 
-			String[] entry = new String[4];//"Title", "ISBN", "Check out date","Due date", "Copy num"
+			String[] entry = new String[4];
 			entry[0] = m.getMemberId();
 			entry[1] = m.getFirstName();
 			entry[2] = m.getLastName();
@@ -238,38 +238,7 @@ public class AllMembersForm extends JFrame implements LibWindow{
 		return libraryMember;
 	}
 
-	private void printEntries() {
-		System.out.printf("---------------------------------------------------------------------------------------------%n");
-		System.out.printf("");
-		System.out.printf("%-40s %n", " Member ID: " + libraryMember.getMemberId());
-		System.out.printf("");
-		System.out.printf("---------------------------------------------------------------------------------------------%n");
-		System.out.printf("| %-40s | %-10s | %-15s | %-15s | %n", "Book title", "ISBN", "Check out date","Due date","Copy");
-		System.out.printf("---------------------------------------------------------------------------------------------%n");
-
-		
-		if(libraryMember.getRecord() == null)
-			return;
-		List<CheckoutRecordEntry> recordEntries = libraryMember.getRecord().getRecord();
-		
-		for (CheckoutRecordEntry e : recordEntries) {
-			String[] entry = new String[5];//"Title", "ISBN", "Check out date","Due date", "Copy num"
-			if(e.getBookCopy() == null || e.getBookCopy().getBook() == null) {
-				entry[0] = "";
-				entry[1] = "";
-				entry[4] = "";
-			} else {
-				entry[0] = e.getBookCopy().getBook().getTitle();
-				entry[1] = e.getBookCopy().getBook().getIsbn();
-				entry[4] = String.valueOf(e.getBookCopy().getCopyNum());
-			}
-			entry[2] = Util.formatMMDDYYYY(e.getCheckoutDate());
-			entry[3] = Util.formatMMDDYYYY(e.getDueDate());
-			System.out.printf("| %-40s | %-10s | %-15s | %-15s | %n", entry[0], entry[1], entry[2],entry[3],entry[4]);
-		}
-	
-		System.out.printf("---------------------------------------------------------------------------------------------%n");
-	}
+	private void printEntries() {}
     public String getParentForm() {
 		return parentForm;
 	}

@@ -352,7 +352,7 @@ public class AddMemberForm extends JFrame implements LibWindow{
 			
 			ci.saveNewMember(libraryMember);
 			memberID.setText(memberId);
-			Util.showMessage(this, "Member added!");
+			Util.showMessage(this, "Member added with ID " + memberId);
 			resetForm();
 		} catch (RuleException e) {
 			Util.showMessage(this, e.getMessage());
