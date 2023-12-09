@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+Librarian as L
+Admin as A
+Both as B
+System as S
+
+L ------> (1.Login)
+A ------> (1.Login)
+B ------> (1.Login)
+(1.Login) ---> S
+
+A ------> (2.Add Member)
+B ------> (2.Add Member)
+(2.Add Member) ---> S
+
+B ------> (3.Checkout Book)
+L ------> (3.Checkout Book)
+(3.Checkout Book) ---> S
+
+B ------> (4.Add Book Copy)
+A ------> (4.Add Book Copy)
+(4.Add Book Copy) ---> S
+
+A ------> (5.Add Book)
+B ------> (5.Add Book)
+(5.Add Book) ---> S
+
+A ------> (6.Search Member)
+L ------> (6.Search Member)
+B ------> (6.Search Member)
+(6.Search Member) ---> S
+
+L ------> (7.Overdue check)
+B ------> (7.Overdue check)
+(7.Overdue check) ---> S
+
+A ------> (View all Members)
+B ------> (View all Members)
+(View all Members) ---> S
+
+A ------> (View all Books)
+B ------> (View all Books)
+(View all Books) ---> S
