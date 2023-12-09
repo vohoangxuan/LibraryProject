@@ -205,11 +205,12 @@ public class SystemController implements ControllerInterface {
 				LocalDate dueDate = entries.get(i).getDueDate();
 				if(dueDate != null && (dueDate.isBefore(checkDate) || dueDate.isEqual(checkDate))) {
 					BookCopy copy = entries.get(i).getBookCopy();
-					if (bookCopyList.contains(copy) && !bookCopyLibraryMemberMap.containsKey(copy)) {
-						bookCopyLibraryMemberMap.put(copy,member);
-					} 
-					bookCopyLibraryMemberMap.get(copy).getRecord().getRecord().add(entries.get(i));
-					
+					if(bookCopyList.contains(copy)) {
+						if (!bookCopyLibraryMemberMap.containsKey(copy)) {
+							bookCopyLibraryMemberMap.put(copy,member);
+						} 
+						bookCopyLibraryMemberMap.get(copy).getRecord().getRecord().add(entries.get(i));
+					}
 				}
 			}
 		}
