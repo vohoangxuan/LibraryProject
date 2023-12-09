@@ -203,7 +203,7 @@ public class SystemController implements ControllerInterface {
 			member.getRecord().getRecord().clear();
 			for (int i = 0; i < entries.size(); i++) {
 				LocalDate dueDate = entries.get(i).getDueDate();
-				if(dueDate != null && (dueDate.isBefore(checkDate) || dueDate.isEqual(checkDate))) {
+				if(dueDate != null && (dueDate.isBefore(checkDate))) {
 					BookCopy copy = entries.get(i).getBookCopy();
 					if(bookCopyList.contains(copy)) {
 						if (!bookCopyLibraryMemberMap.containsKey(copy)) {
