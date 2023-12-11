@@ -232,6 +232,10 @@ public class SearchOverDueBookForm extends JFrame implements LibWindow{
 	
 	private void search() {
 		String isbnText = isbn.getText().trim();
+		if("".equals(isbn)) {
+			Util.showMessage(this, "Please input Isbn");
+			return;
+		}
 		HashMap<BookCopy, LibraryMember> map = new HashMap<BookCopy, LibraryMember>();
 		try {
 			map = ci.findOverdueEntries(isbnText, LocalDate.now());

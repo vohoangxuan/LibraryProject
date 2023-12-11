@@ -251,6 +251,10 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	private void searchMember() {
 		try {
 			String memberId = memberID.getText().trim();
+			if("".equals(memberId)) {
+				Util.showMessage(this, "Please input member ID");
+				return;
+			}
 			libraryMember = ci.searchMember(memberId);
 			firstName.setText(libraryMember.getFirstName());
 			lastName.setText(libraryMember.getLastName());
