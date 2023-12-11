@@ -1,20 +1,26 @@
 @startuml
 participant Administrator
 
-Administrator -> UI: 1. sendISBN
+Administrator -> UI: 1. sendIsbn
 activate UI
-UI -> AddCopyForm: 2. validateISBN
+UI -> AddCopyForm: 2. forwardIsbn
 activate AddCopyForm
-AddCopyForm -> SystemController: 3. createBookCopy
+AddCopyForm -> SystemController: 3. addBookCopyByISBN
 activate SystemController
-' deactivate AddCopyForm
-SystemController -> SystemController: 4. saveBookData
+SystemController -> DataAccessFacade: 4. readBooksMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 5. validateBookIsbn
 activate SystemController
-' SystemController -> SystemController: 5. Update according db
-' activate SystemController
 deactivate SystemController
+SystemController -> SystemController: 6. addBookCopy
+activate SystemController
 deactivate SystemController
-AddCopyForm -> AddCopyForm: 5. updateAccordingState
+SystemController -> DataAccessFacade: 7. updateBook
+activate DataAccessFacade
+deactivate DataAccessFacade
+deactivate SystemController
+AddCopyForm -> AddCopyForm: 8. updateAccordingState
 activate AddCopyForm
 deactivate AddCopyForm
 deactivate AddCopyForm

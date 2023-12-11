@@ -1,18 +1,46 @@
 @startuml
 participant Administrator
 
-Administrator -> UI: 1. Send new book info
+Administrator -> UI: 1. sendBookInfo
 activate UI
-UI -> Add_Book_Handler: 2. Forward book info
-activate Add_Book_Handler
-Add_Book_Handler -> Add_Book_Handler: 3. Validate new book info
-activate Add_Book_Handler
-deactivate Add_Book_Handler
-Add_Book_Handler -> System_Controller: 4. Add new book to db
-activate System_Controller
-deactivate System_Controller
-Add_Book_Handler -> Add_Book_Handler: 5. Set according state
-activate Add_Book_Handler
-deactivate Add_Book_Handler
-deactivate Add_Book_Handler
+UI -> AddBookForm: 2. forwardBookInfo
+activate AddBookForm
+AddBookForm -> RuleSetFactory: 3. getRuleset(thís)
+activate RuleSetFactory
+deactivate RuleSetFactory
+AddBookForm -> AddBookForm: 4. applyRules
+activate AddBookForm
+deactivate AddBookForm
+AddBookForm -> SystemController: 5. getAllAuthor
+activate SystemController
+SystemController -> DataAccessFacade: 6. readAuthorsMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+deactivate SystemController
+deactivate AddBookForm
+UI -> UI: 7. showAuthorList
+activate UI
+deactivate UI
+Administrator -> UI: 8. sendAuthorInfo
+UI -> AddBookForm: 9. forwardAuthorInfo
+activate AddBookForm
+AddBookForm -> AddBookForm: 10. newBook
+activate AddBookForm
+deactivate AddBookForm
+AddBookForm -> SystemController: 11. addBook
+activate SystemController
+SystemController -> DataAccessFacade: 12. readBooksMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 13. validateIsbn
+activate SystemController
+deactivate SystemController
+SystemController -> DataAccessFacade: 14. updateBook
+activate DataAccessFacade
+deactivate DataAccessFacade
+deactivate SystemController
+AddBookForm -> AddBookForm: 15. updateAccordingState
+activate AddBookForm
+deactivate AddBookForm
+deactivate AddBookForm
 @enduml

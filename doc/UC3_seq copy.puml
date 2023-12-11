@@ -5,24 +5,40 @@ Librarian -> UI: 1. sendMemberIdAndIsbn
 activate UI
 UI -> CheckoutBookForm: 2. forwardMemberIdAndIsbn
 activate CheckoutBookForm
-CheckoutBookForm -> CheckoutBookForm: 3.validateMemberId
+CheckoutBookForm -> RulesetFactory: 3. getRuleset(this)
+activate RulesetFactory
+deactivate RulesetFactory
+CheckoutBookForm -> CheckoutBookForm: 4. applyRuleset
 activate CheckoutBookForm
 deactivate CheckoutBookForm
-CheckoutBookForm -> SystemController: 4. checkBookIsAvailable
-' activate CheckoutBookForm
-' deactivate CheckoutBookForm
+CheckoutBookForm -> SystemController: 5. addCheckoutEntry
+activate SystemController
+SystemController -> DataAccessFacade: 6. readBooksMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 7. validateBookIsbn
 activate SystemController
 deactivate SystemController
-CheckoutBookForm -> SystemController: 5. newCheckoutEntry
-activate SystemController
-SystemController -> SystemController: 6. saveMemberData
+SystemController -> SystemController: 8. validateBookDuedate
 activate SystemController
 deactivate SystemController
-SystemController -> SystemController: 7. saveBookData
+SystemController -> SystemController: 9. checkBookIsAvailable
 activate SystemController
 deactivate SystemController
+SystemController -> DataAccessFacade: 10. readLibraryMemberMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 11. validateMemberId
+activate SystemController
 deactivate SystemController
-CheckoutBookForm -> CheckoutBookForm: 8. updateAccordingState
+SystemController -> DataAccessFacade: 12. updateMemberRecord
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> DataAccessFacade: 13. updateBook
+activate DataAccessFacade
+deactivate DataAccessFacade
+deactivate SystemController
+CheckoutBookForm -> CheckoutBookForm: 14. updateAccordingState
 activate CheckoutBookForm
 deactivate CheckoutBookForm
 deactivate CheckoutBookForm

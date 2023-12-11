@@ -5,24 +5,41 @@ Administrator -> UI: 1. sendBookInfo
 activate UI
 UI -> AddBookForm: 2. forwardBookInfo
 activate AddBookForm
-AddBookForm -> SystemController: 3. getAuthor
+AddBookForm -> RuleSetFactory: 3. getRuleset(thís)
+activate RuleSetFactory
+deactivate RuleSetFactory
+AddBookForm -> AddBookForm: 4. applyRules
+activate AddBookForm
+deactivate AddBookForm
+AddBookForm -> SystemController: 5. getAllAuthor
 activate SystemController
+SystemController -> DataAccessFacade: 6. readAuthorsMap
+activate DataAccessFacade
+deactivate DataAccessFacade
 deactivate SystemController
 deactivate AddBookForm
-UI -> UI: 4. showAuthorList
+UI -> UI: 7. showAuthorList
 activate UI
 deactivate UI
-' deactivate UI
-Administrator -> UI: 5. sendAuthorInfo
-UI -> AddBookForm: 6. forwardAuthorInfo
+Administrator -> UI: 8. sendAuthorInfo
+UI -> AddBookForm: 9. forwardAuthorInfo
 activate AddBookForm
-AddBookForm -> SystemController: 7. sendBookInfo
+AddBookForm -> AddBookForm: 10. newBook
+activate AddBookForm
+deactivate AddBookForm
+AddBookForm -> SystemController: 11. addBook
 activate SystemController
-SystemController -> SystemController: 8. saveBookInfo
+SystemController -> DataAccessFacade: 12. readBooksMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 13. validateIsbn
 activate SystemController
 deactivate SystemController
+SystemController -> DataAccessFacade: 14. updateBook
+activate DataAccessFacade
+deactivate DataAccessFacade
 deactivate SystemController
-AddBookForm -> AddBookForm: 9. updateAccordingState
+AddBookForm -> AddBookForm: 15. updateAccordingState
 activate AddBookForm
 deactivate AddBookForm
 deactivate AddBookForm

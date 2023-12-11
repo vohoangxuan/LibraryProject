@@ -1,21 +1,27 @@
 @startuml
 participant Administrator
 
-Administrator -> UI: 1. Send ISBN
+Administrator -> UI: 1. sendIsbn
 activate UI
-UI -> Add_Copy_Handler: 2. Validate ISBN
-activate Add_Copy_Handler
-Add_Copy_Handler -> Add_Copy_Handler: 3. Update according state
-activate Add_Copy_Handler
-deactivate Add_Copy_Handler
-Add_Copy_Handler -> System_Controller: 4. Create a book copy in db
-activate System_Controller
-System_Controller -> System_Controller: 5. Update according db
-activate System_Controller
-deactivate System_Controller
-deactivate System_Controller
-Add_Copy_Handler -> Add_Copy_Handler: 6. Update UI according state
-activate Add_Copy_Handler
-deactivate Add_Copy_Handler
-deactivate Add_Copy_Handler
+UI -> AddCopyForm: 2. forwardIsbn
+activate AddCopyForm
+AddCopyForm -> SystemController: 3. addBookCopyByISBN
+activate SystemController
+SystemController -> DataAccessFacade: 4. readBooksMap
+activate DataAccessFacade
+deactivate DataAccessFacade
+SystemController -> SystemController: 5. validateBookIsbn
+activate SystemController
+deactivate SystemController
+SystemController -> SystemController: 6. addBookCopy
+activate SystemController
+deactivate SystemController
+SystemController -> DataAccessFacade: 7. updateBook
+activate DataAccessFacade
+deactivate DataAccessFacade
+deactivate SystemController
+AddCopyForm -> AddCopyForm: 8. updateAccordingState
+activate AddCopyForm
+deactivate AddCopyForm
+deactivate AddCopyForm
 @enduml
