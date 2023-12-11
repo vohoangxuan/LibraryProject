@@ -17,9 +17,23 @@ public class CheckoutRuleSet implements RuleSet {
     
 	@Override
 	public void applyRules(Component ob) throws RuleException {
-		checkoutForm = (CheckoutForm) ob; 
-		nonemptyRule();
-		numericDueDate();
+		checkoutForm = (CheckoutForm) ob;
+		StringBuilder msg = new StringBuilder();
+		try{
+			nonemptyRule();
+		}
+		catch (RuleException e){
+			msg.append(e.getMessage());
+		}
+		try{
+			numericDueDate();
+		}
+		catch (RuleException e){
+			msg.append("".equals(msg.toString())? "": "\n").append(e.getMessage());
+		}
+		if(!"".equals(msg.toString()))
+			throw new RuleException(msg.toString());
+		
 	}
 
 	private void nonemptyRule() throws RuleException {
@@ -44,4 +58,5 @@ public class CheckoutRuleSet implements RuleSet {
 			throw new RuleException("Due date must be greater than 0");
 		}
 	}
+	
 }

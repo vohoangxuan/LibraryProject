@@ -94,23 +94,27 @@ public class SystemController implements ControllerInterface {
 	public void addCheckoutEntry(String memId, String isbnNumb, LocalDate checkout, int due) throws BookException, MemberException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String,Book> mapBook = da.readBooksMap();
-		Book b;
+		Book b = null;
+		StringBuilder errMsg = new StringBuilder();
+		HashMap<String, LibraryMember> mapMem = da.readMemberMap();
+		if(!mapMem.containsKey(memId)){
+			errMsg.append("Member ID does not exist");
+		}
 		if (mapBook.containsKey(isbnNumb)){
 			b = mapBook.get(isbnNumb);
 		}
 		else{
-			throw new BookException("Requested book does not exist");
+			errMsg.append("".equals(errMsg.toString())? "": "\n").append("Requested book does not exist");
 		}
-		if (due > b.getMaxCheckoutLength()){
-			throw new BookException("Due date exceeds book max checkout length");
+		if ((b != null) && due > b.getMaxCheckoutLength()){
+			errMsg.append("".equals(errMsg.toString())? "": "\n").append("Due date exceeds book max checkout length");
+		}
+		if (!"".equals(errMsg.toString())){
+			throw new BookException(errMsg.toString());
 		}
 		// HashMap<String, LibraryMember> map = da.readMemberMap();
 		if (b.isAvailable()){
 			BookCopy copy = b.getNextAvailableCopy();
-			HashMap<String, LibraryMember> mapMem = da.readMemberMap();
-			if(!mapMem.containsKey(memId)){
-				throw new MemberException("Member ID does not exist");
-			}
 			copy.changeAvailability();
 			da.updateMemberRecord(memId, new CheckoutRecordEntry(checkout, due, copy));
 			da.updateBook(b);
