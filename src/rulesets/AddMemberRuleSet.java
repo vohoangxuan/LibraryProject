@@ -23,15 +23,31 @@ public class AddMemberRuleSet implements RuleSet {
 	@Override
 	public void applyRules(Component ob) throws RuleException {
 		libraryMember = ((AddMemberForm)ob).getLibraryMember(); 
-//		member = AddMemberForm.INSTANCE;
 		if(libraryMember == null) {
 			throw new RuleException("Invalid member!");
 		}
-		nonemptyRule();
-//		idNumericRule();
-		zipNumericRule();
-		stateRule();
-//		idNotZipRule();
+		StringBuilder msg = new StringBuilder();
+		try {
+			nonemptyRule();
+		} catch(RuleException e) {
+			msg.append(e.getMessage());
+		}
+
+		try {
+			zipNumericRule();
+		} catch(RuleException e) {
+
+			msg.append("".equals(msg.toString())? "": "\n").append(e.getMessage());
+		}		
+
+		try {
+			stateRule();
+		} catch(RuleException e) {
+			msg.append("".equals(msg.toString())? "": "\n").append(e.getMessage());
+		}
+		
+		if(!"".equals(msg.toString()))
+			throw new RuleException(msg.toString());
 	}
 
 	private void nonemptyRule() throws RuleException {
@@ -47,16 +63,6 @@ public class AddMemberRuleSet implements RuleSet {
 			throw new RuleException("All fields must be non-empty!");
 		}
 	}
-
-//	private void idNumericRule() throws RuleException {
-//		String val = member.getIdValue().trim();
-//		try {
-//			Integer.parseInt(val);
-//			//val is numeric
-//		} catch(NumberFormatException e) {
-//			throw new RuleException("ID must be numeric");
-//		}		
-//	}
 
 	private void zipNumericRule() throws RuleException {
 		String val = libraryMember.getAddress().getZip().trim();

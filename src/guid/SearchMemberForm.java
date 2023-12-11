@@ -54,9 +54,7 @@ public class SearchMemberForm extends JFrame implements LibWindow{
     private JTextField city;
     private JTextField zip;
     private JTextField street;
-    private JButton addNewMember;
     private JPanel lowerPanel;
-    private JPanel lowerPanelRow1;
     private JPanel lowerPanelRow2;
     private JButton searchMember;
     private final boolean USE_DEFAULT_DATA = true;
@@ -137,7 +135,6 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 	
 	private void defineMiddlePanel() {
 		middlePanel=new JPanel();
-//		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		middlePanel.setLayout(new BorderLayout());
 		defineMiddlePanelRow();
 		defineLeftTextPanel();
@@ -155,6 +152,13 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		city.setEnabled(false);
 		state.setEnabled(false);
 		zip.setEnabled(false);
+		firstName.setDisabledTextColor(Color.BLACK);
+		lastName.setDisabledTextColor(Color.BLACK);
+		phoneNumber.setDisabledTextColor(Color.BLACK);
+		street.setDisabledTextColor(Color.BLACK);
+		city.setDisabledTextColor(Color.BLACK);
+		state.setDisabledTextColor(Color.BLACK);
+		zip.setDisabledTextColor(Color.BLACK);
 	}
 	
 	private void defineLowerPanel() {
@@ -168,12 +172,6 @@ public class SearchMemberForm extends JFrame implements LibWindow{
 		lowerPanelRow2.add(printButton);
 		lowerPanel.add(scrollPane, BorderLayout.NORTH);//lowerPanelRow1
 		lowerPanel.add(lowerPanelRow2, BorderLayout.CENTER);
-		/*
-		addNewMember = new JButton("Save");
-		addAddMemberButtonListener(addNewMember);
-		lowerPanel.add(addNewMember);
-		*/
-		
 	}
 
 	//table

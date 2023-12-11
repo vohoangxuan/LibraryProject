@@ -75,6 +75,7 @@ public class AddMemberForm extends JFrame implements LibWindow{
     	getContentPane().add(mainPanel);
     	memberID.setEnabled(false);
     	memberID.setBackground(new Color(240, 240, 240));
+    	memberID.setDisabledTextColor(Color.BLACK);
     	isInitialized(true);
     	pack();
 	}
@@ -96,7 +97,6 @@ public class AddMemberForm extends JFrame implements LibWindow{
 		middleHalf.setLayout(new BorderLayout());
 		JSeparator s = new JSeparator();
 		s.setOrientation(SwingConstants.HORIZONTAL);
-		//middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
 		middleHalf.add(s, BorderLayout.SOUTH);
 		
 	}
@@ -126,7 +126,6 @@ public class AddMemberForm extends JFrame implements LibWindow{
 	
 	private void defineMiddlePanel() {
 		middlePanel=new JPanel();
-//		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		middlePanel.setLayout(new BorderLayout());
 		defineLeftTextPanel();
 		defineRightTextPanel();

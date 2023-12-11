@@ -19,10 +19,6 @@ public class LoginRuleSet implements RuleSet {
 	public void applyRules(Component ob) throws RuleException {
 		loginUser = ((LoginForm)ob).getUser();
 		nonemptyRule();
-//		idNumericRule();
-//		favRestAndMovieRule();		
-//		correctCharTypeRule();
-		
 	}
 	
 	private void nonemptyRule() throws RuleException {
